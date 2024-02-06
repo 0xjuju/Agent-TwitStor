@@ -110,7 +110,7 @@ class LLMConfig(models.Model):
 
     @property
     def value(self) -> dict[str, Union[int, list, str]]:
-        config_list = [{"model": i.model_name, "api_key": i.get_key()} for i in self.api_keys]
+        config_list = [{"model": i.model_name, "api_key": i.get_key()} for i in self.api_keys.objects.all()]
         config_file = {
             "timeout": self.timeout,
             "cache_seed": self.cache_seed,
