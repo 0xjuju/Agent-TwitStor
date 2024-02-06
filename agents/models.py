@@ -52,3 +52,17 @@ class LLMConfig(models.Model):
     cache_seed = models.IntegerField(default=42)
     temperature = models.IntegerField(default=0)
 
+    @property
+    def config(self) -> dict[str, Union[int, list, str]]:
+        config_list = [{"model": i.model_name, "api_key": decouple.config(i.value)} for i in self.api_keys]
+        config_file = {
+            "timeout": self.timeout,
+            "cache_seed": self.cache_seed,
+            "config_list": config_list,
+            "temperature": "temperature"
+        }
+
+        return config_file
+
+
+
