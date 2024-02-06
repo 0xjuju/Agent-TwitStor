@@ -1,4 +1,5 @@
 from django.db import models
+from typing import Union
 
 
 class Agent(models.Model):
@@ -14,6 +15,16 @@ class Agent(models.Model):
 
     def __str__(self):
         return self.name
+
+    def code_execution_config(self, **kwargs) -> Union[dict[str, str], bool]:
+
+        if self._code_execution_config:
+            return {
+                "work_dir": kwargs["work_dir"],
+                "use_docker": "python:3",
+            }
+        else:
+            return False
 
 
 class LLMConfig(models.Model):
