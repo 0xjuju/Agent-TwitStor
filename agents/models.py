@@ -19,8 +19,19 @@ class Agent(models.Model):
     def __str__(self):
         return self.name
 
-    def assistant_agent(self, system_message: str = "", is_termination_message=None):
-        pass
+    def assistant_agent(self, system_message: str = "", is_termination_message=None, max_consecutive_auto_reply=10,
+                        human_input_mode="Never", description=None) -> autogen.AssistantAgent:
+        agent = autogen.AssistantAgent(
+            name=self.name,
+            system_message=system_message,
+            llm_config=self.llm_config.value,
+            is_termination_msg=is_termination_message,
+            human_input_mode=human_input_mode,
+            max_consecutive_auto_reply=max_consecutive_auto_reply,
+            description=description
+        )
+
+        return agent
 
     def code_execution_config(self, **kwargs) -> Union[dict[str, str], bool]:
 
