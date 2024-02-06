@@ -42,7 +42,7 @@ class Agent(models.Model):
         if human_input_mode not in input_modes:
             raise ValueError(f"{human_input_mode} not an option. Choices are: {input_modes}")
 
-        llm_config = self.llm_config.config
+        llm_config = self.llm_config.value
 
         agent = autogen.UserProxyAgent(
             name=self.name,
@@ -69,7 +69,7 @@ class LLMConfig(models.Model):
     temperature = models.IntegerField(default=0)
 
     @property
-    def config(self) -> dict[str, Union[int, list, str]]:
+    def value(self) -> dict[str, Union[int, list, str]]:
         config_list = [{"model": i.model_name, "api_key": decouple.config(i.value)} for i in self.api_keys]
         config_file = {
             "timeout": self.timeout,
