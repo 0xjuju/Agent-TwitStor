@@ -32,13 +32,24 @@ class Agent(models.Model):
         else:
             return False
 
-    def user_proxy_agent(self, system_message: str, human_input_mode: str, max_consecutive_auto_reply=10)\
-            -> autogen.UserProxyAgent:
+    def user_proxy_agent(self,
+                         system_message: str,
+                         human_input_mode: str = "ALWAYS",
+                         max_consecutive_auto_reply=10,
+                         is_termination_message=None,
+                         function_map=None,
+                         default_auto_reply="",
+                         description=""
+                         ) -> autogen.UserProxyAgent:
         """
 
-        :param system_message: Initial message to give agent
-        :param human_input_mode: How much autonomy the agent has. Alway, never, or sometimes ask for human action
+        :param system_message: system message for ChatCompletion inference. Only used when llm_config is not False. Use it to reprogram the agent
+        :param human_input_mode: How much autonomy the agent has. Always, never, or sometimes ask for human action
         :param max_consecutive_auto_reply: max times bots will interact before interruption
+        :param is_termination_message: ...
+        :param function_map: Callable function for agent to use
+        :param default_auto_reply: Default message when no code execution or LLM is generated
+        :param description: Short description of agent, Used by other agents to decide when to call this agent
         :return: User proxy agent object
         """
         input_modes = ["TERMINATE", "NEVER", "ALWAYS"]
@@ -53,7 +64,12 @@ class Agent(models.Model):
             max_consecutive_auto_reply=max_consecutive_auto_reply,
             code_execution_config=self._code_execution_config,
             llm_config=llm_config,
-            system_message=system_message
+            system_message=system_message,
+            is_termination_msg=is_termination_message,
+            function_map=function_map,
+            default_auto_reply=default_auto_reply,
+            description=description
+
         )
 
         return agent
