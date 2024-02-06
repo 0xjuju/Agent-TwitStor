@@ -29,15 +29,31 @@ class Agent(models.Model):
         else:
             return False
 
-    def user_proxy_agent(self, human_input_mode):
+    def user_proxy_agent(self, system_message: str, human_input_mode: str, max_consecutive_auto_reply=10)\
+            -> autogen.UserProxyAgent:
+        """
+
+        :param system_message: Initial message to give agent
+        :param human_input_mode: How much autonomy the agent has. Alway, never, or sometimes ask for human action
+        :param max_consecutive_auto_reply: max times bots will interact before interruption
+        :return: User proxy agent object
+        """
         input_modes = ["TERMINATE", "NEVER", "ALWAYS"]
         if human_input_mode not in input_modes:
             raise ValueError(f"{human_input_mode} not an option. Choices are: {input_modes}")
 
+        llm_config = self.llm_config.config
+
         agent = autogen.UserProxyAgent(
             name=self.name,
             human_input_mode=human_input_mode,
+            max_consecutive_auto_reply=max_consecutive_auto_reply,
+            code_execution_config=self._code_execution_config,
+            llm_config=llm_config,
+            system_message=system_message
         )
+
+        return agent
 
 
 class APIKey(models.Model):
