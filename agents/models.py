@@ -19,11 +19,10 @@ class Agent(models.Model):
     def __str__(self):
         return self.name
 
-    def assistant_agent(self, system_message: str = "", is_termination_message=None, max_consecutive_auto_reply=10,
+    def assistant_agent(self, is_termination_message=None, max_consecutive_auto_reply=10,
                         human_input_mode="Never", description=None) -> autogen.AssistantAgent:
         """
 
-        :param system_message:
         :param is_termination_message:
         :param max_consecutive_auto_reply:
         :param human_input_mode:
@@ -32,7 +31,7 @@ class Agent(models.Model):
         """
         agent = autogen.AssistantAgent(
             name=self.name,
-            system_message=system_message,
+            system_message=self.system_message,
             llm_config=self.llm_config.value,
             is_termination_msg=is_termination_message,
             human_input_mode=human_input_mode,
@@ -53,7 +52,6 @@ class Agent(models.Model):
             return False
 
     def user_proxy_agent(self,
-                         system_message: str,
                          human_input_mode: str = "ALWAYS",
                          max_consecutive_auto_reply=10,
                          is_termination_message=None,
@@ -63,7 +61,6 @@ class Agent(models.Model):
                          ) -> autogen.UserProxyAgent:
         """
 
-        :param system_message: system message for ChatCompletion inference. Only used when llm_config is not False. Use it to reprogram the agent
         :param human_input_mode: How much autonomy the agent has. Always, never, or sometimes ask for human action
         :param max_consecutive_auto_reply: max times bots will interact before interruption
         :param is_termination_message: ...
@@ -84,7 +81,7 @@ class Agent(models.Model):
             max_consecutive_auto_reply=max_consecutive_auto_reply,
             code_execution_config=self._code_execution_config,
             llm_config=llm_config,
-            system_message=system_message,
+            system_message=self.system_message,
             is_termination_msg=is_termination_message,
             function_map=function_map,
             default_auto_reply=default_auto_reply,
