@@ -22,7 +22,7 @@ class Build:
 
     @staticmethod
     def build_llm_configs():
-        api_key = APIKey.objects.get(name="openai")
+        api_key = APIKey.objects.get(model_name="openai")
 
         config1 = LLMConfig.objects.create(
             name="standard",
@@ -39,11 +39,11 @@ class Build:
 
         agents = [
             Agent(
-                name="Summarization Agent",
+                name="summarization_agent",
                 agent_type="user_proxy_agent",
                 _code_execution_config=True,
                 system_message="Summarize the given article. Give it the title 'TL;DR'",
-                llmconfig=config,
+                llm_config=config,
             )
         ]
 
