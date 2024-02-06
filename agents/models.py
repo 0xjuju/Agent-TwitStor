@@ -58,7 +58,7 @@ class Agent(models.Model):
 
 class APIKey(models.Model):
     model_name = models.CharField(max_length=255, default="")
-    value = models.CharField(max_length=255, default="")
+    _value = models.CharField(max_length=255, default="")
 
 
 class LLMConfig(models.Model):
@@ -70,7 +70,7 @@ class LLMConfig(models.Model):
 
     @property
     def value(self) -> dict[str, Union[int, list, str]]:
-        config_list = [{"model": i.model_name, "api_key": decouple.config(i.value)} for i in self.api_keys]
+        config_list = [{"model": i.model_name, "api_key": decouple.config(i._value)} for i in self.api_keys]
         config_file = {
             "timeout": self.timeout,
             "cache_seed": self.cache_seed,
