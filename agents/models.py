@@ -19,6 +19,9 @@ class Agent(models.Model):
     def __str__(self):
         return self.name
 
+    def assistant_agent(self, system_message: str = "", is_termination_message=None):
+        pass
+
     def code_execution_config(self, **kwargs) -> Union[dict[str, str], bool]:
 
         if self._code_execution_config:
