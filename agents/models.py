@@ -1,6 +1,6 @@
-import json
 
 import autogen
+import decouple
 from django.db import models
 from typing import Union
 
@@ -40,11 +40,15 @@ class Agent(models.Model):
         )
 
 
+class APIKey(models.Model):
+    name = models.CharField(max_length=255, default="")
+    value = models.CharField(max_length=255, default="")
+
+
 class LLMConfig(models.Model):
     name = models.CharField(max_length=255, default="")
     model = models.CharField(max_length=255, default="")
-    api_key = models.CharField(max_length=255, default="")
+    api_keys = models.ManyToManyField(APIKey)
     timeout = models.IntegerField(default=600)
     cache_seed = models.IntegerField(default=42)
     temperature = models.IntegerField(default=0)
-
