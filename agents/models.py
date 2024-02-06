@@ -1,3 +1,5 @@
+import json
+
 import autogen
 from django.db import models
 from typing import Union
@@ -40,10 +42,9 @@ class Agent(models.Model):
 
 class LLMConfig(models.Model):
     name = models.CharField(max_length=255, default="")
-    config_list = models.TextField(default="")
+    model = models.CharField(max_length=255, default="")
+    api_key = models.CharField(max_length=255, default="")
     timeout = models.IntegerField(default=600)
     cache_seed = models.IntegerField(default=42)
     temperature = models.IntegerField(default=0)
-
-
 
