@@ -11,6 +11,7 @@ class TestModels(TestCase):
 
     def test_agent_user_agent_proxy(self):
         user_proxy_agent = self.agent.user_proxy_agent()
+        print(user_proxy_agent)
 
 
 
