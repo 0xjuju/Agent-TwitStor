@@ -1,3 +1,4 @@
+import autogen
 from django.db import models
 from typing import Union
 
@@ -25,6 +26,16 @@ class Agent(models.Model):
             }
         else:
             return False
+
+    def user_proxy_agent(self, human_input_mode):
+        input_modes = ["TERMINATE", "NEVER", "ALWAYS"]
+        if human_input_mode not in input_modes:
+            raise ValueError(f"{human_input_mode} not an option. Choices are: {input_modes}")
+
+        agent = autogen.UserProxyAgent(
+            name=self.name,
+            human_input_mode=human_input_mode,
+        )
 
 
 class LLMConfig(models.Model):
