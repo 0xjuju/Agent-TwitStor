@@ -96,7 +96,6 @@ class APIKey(models.Model):
     model_name = models.CharField(max_length=255, default="")
     _value = models.CharField(max_length=255, default="")
 
-    @staticmethod
     def get_key(self):
         return decouple.config(self._value)
 
