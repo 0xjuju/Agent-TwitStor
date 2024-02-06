@@ -21,6 +21,15 @@ class Agent(models.Model):
 
     def assistant_agent(self, system_message: str = "", is_termination_message=None, max_consecutive_auto_reply=10,
                         human_input_mode="Never", description=None) -> autogen.AssistantAgent:
+        """
+
+        :param system_message:
+        :param is_termination_message:
+        :param max_consecutive_auto_reply:
+        :param human_input_mode:
+        :param description:
+        :return:
+        """
         agent = autogen.AssistantAgent(
             name=self.name,
             system_message=system_message,
