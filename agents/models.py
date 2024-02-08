@@ -40,13 +40,13 @@ class Agent(models.Model):
         fields = {
             "name": self.name,
             "llm_config": llm_config,
-            "is_termination_message": None,
             "human_input_mode": self.human_input_mode,
-            "max_consecutive_auto_reply": self.max_consecutive_reply
+            "max_consecutive_auto_reply": self.max_consecutive_reply,
+            "code_execution_config": self.code_execution_config()
         }
 
-        if self._code_execution_config:
-            fields["code_execution_config"] = self.code_execution_config()
+        if self._is_termination_message:
+            fields["is_termination_msg"] = lambda x: x.get("content", "").rstrip().endswith("TERMINATE")
 
         if self.agent_type == "user_proxy":
             return autogen.UserProxyAgent(**fields)
@@ -54,15 +54,15 @@ class Agent(models.Model):
         elif self.agent_type == "assistant":
             return autogen.AssistantAgent(**fields)
 
-    def code_execution_config(self, **kwargs) -> Union[dict[str, str], bool]:
+    def code_execution_config(self) -> Union[dict[str, str], dict]:
 
         if self._code_execution_config:
             return {
-                "work_dir": kwargs["work_dir"],
-                "use_docker": "python:3",
+                "work_dir": "coding",
+                "use_docker": False,
             }
         else:
-            return False
+            return {}
 
 
 class APIKey(models.Model):
