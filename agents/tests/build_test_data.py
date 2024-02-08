@@ -8,6 +8,7 @@ class Build:
         self.build_api_keys()
         self.build_llm_configs()
         self.build_user_proxy_agents()
+        self.build_assistant_agent()
 
     @staticmethod
     def build_api_keys():
@@ -32,6 +33,20 @@ class Build:
         )
         config1.save()
         config1.api_keys.add(api_key)
+
+    @staticmethod
+    def build_assistant_agent():
+        config = LLMConfig.objects.get(name="standard")
+        agents = [
+            Agent(
+                name="assistant",
+                agent_Type="assistant_agent",
+                _code_execution_config=False,
+                llm_config=config
+            )
+        ]
+
+        Agent.objects.bulk_create(agents)
 
     @staticmethod
     def build_user_proxy_agents() -> None:
