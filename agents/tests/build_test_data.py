@@ -15,7 +15,7 @@ class Build:
         keys = [
             APIKey(
                 model_name="gpt-3.5-turbo",
-                _value="OPEN_AI_SECRET_KEY",
+                _value="OPENAI_API_KEY",
             ),
         ]
 
@@ -36,7 +36,7 @@ class Build:
 
     @staticmethod
     def build_assistant_agent():
-        config = LLMConfig.objects.get(name="standard")
+        config = LLMConfig.objects.get(name="assistant")
         agents = [
             Agent(
                 name="assistant",
@@ -50,14 +50,14 @@ class Build:
 
     @staticmethod
     def build_user_proxy_agents() -> None:
-        config = LLMConfig.objects.get(name="standard")
+        config = LLMConfig.objects.get(name="user_proxy")
 
         agents = [
             Agent(
                 name="summarization_agent",
                 agent_type="user_proxy_agent",
-                _code_execution_config=False,
-                system_message="Summarize the given article. Give it the title 'TL;DR'",
+                _code_execution_config=True,
+                llm_config=config,
             )
         ]
 

@@ -10,36 +10,46 @@ class Agent(models.Model):
         ("assistant", "assistant", ),
         ("user_proxy", "user_proxy", ),
     )
+
+    human_input_choices = (
+        ("NEVER", "NEVER",),
+        ("ALWAYS", "ALWAYS",),
+        ("TERMINATE", "TERMINATE",),
+    )
+
     name = models.CharField(max_length=255, default="")
     agent_type = models.CharField(max_length=255, default="assistant")
     _code_execution_config = models.BooleanField(default=True)
     system_message = models.CharField(max_length=255, default="")
+    human_input_mode = models.CharField(max_length=255, default="ALWAYS", choices=human_input_choices)
+    max_consecutive_reply = models.IntegerField(default=0)
+    _is_termination_message = models.BooleanField(default=False)
+    description = models.TextField(default="")
     llm_config = models.ForeignKey("LLMConfig", null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
-    def assistant_agent(self, is_termination_message=None, max_consecutive_auto_reply=10,
-                        human_input_mode="Never", description=None) -> autogen.AssistantAgent:
-        """
+    def get_agent(self) -> Union[
+        autogen.UserProxyAgent,
+        autogen.AssistantAgent
+    ]:
 
-        :param is_termination_message:
-        :param max_consecutive_auto_reply:
-        :param human_input_mode:
-        :param description:
-        :return:
-        """
-        agent = autogen.AssistantAgent(
-            name=self.name,
-            system_message=self.system_message,
-            llm_config=self.llm_config.value,
-            is_termination_msg=is_termination_message,
-            human_input_mode=human_input_mode,
-            max_consecutive_auto_reply=max_consecutive_auto_reply,
-            description=description
-        )
+        llm_config = self.llm_config.value if self.llm_config else None
 
-        return agent
+        fields = {
+            "name": self.name,
+            "llm_config": llm_config,
+            "is_termination_message": None,
+            "human_input_mode": self.human_input_mode,
+            "max_consecutive_auto_reply": self.max_consecutive_reply
+        }
+
+        if self.agent_type == "user_proxy":
+            return autogen.UserProxyAgent(**fields)
+
+        elif self.agent_type == "assistant":
+            return autogen.AssistantAgent(**fields)
 
     def code_execution_config(self, **kwargs) -> Union[dict[str, str], bool]:
 
@@ -50,45 +60,6 @@ class Agent(models.Model):
             }
         else:
             return False
-
-    def user_proxy_agent(self,
-                         human_input_mode: str = "ALWAYS",
-                         max_consecutive_auto_reply=10,
-                         is_termination_message=None,
-                         function_map=None,
-                         default_auto_reply="",
-                         description=""
-                         ) -> autogen.UserProxyAgent:
-        """
-
-        :param human_input_mode: How much autonomy the agent has. Always, never, or sometimes ask for human action
-        :param max_consecutive_auto_reply: max times bots will interact before interruption
-        :param is_termination_message: ...
-        :param function_map: Callable function for agent to use
-        :param default_auto_reply: Default message when no code execution or LLM is generated
-        :param description: Short description of agent, Used by other agents to decide when to call this agent
-        :return: User proxy agent object
-        """
-        input_modes = ["TERMINATE", "NEVER", "ALWAYS"]
-        if human_input_mode not in input_modes:
-            raise ValueError(f"{human_input_mode} not an option. Choices are: {input_modes}")
-
-        llm_config = self.llm_config.value
-        agent = autogen.UserProxyAgent(
-            name=self.name,
-            human_input_mode=human_input_mode,
-            max_consecutive_auto_reply=max_consecutive_auto_reply,
-            code_execution_config=self.code_execution_config(work_dir="_output"),
-            llm_config=llm_config,
-            system_message=self.system_message,
-            is_termination_msg=is_termination_message,
-            function_map=function_map,
-            default_auto_reply=default_auto_reply,
-            description=description
-
-        )
-
-        return agent
 
 
 class APIKey(models.Model):
