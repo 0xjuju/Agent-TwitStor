@@ -45,6 +45,9 @@ class Agent(models.Model):
             "max_consecutive_auto_reply": self.max_consecutive_reply
         }
 
+        if self._code_execution_config:
+            fields["code_execution_config"] = self.code_execution_config()
+
         if self.agent_type == "user_proxy":
             return autogen.UserProxyAgent(**fields)
 

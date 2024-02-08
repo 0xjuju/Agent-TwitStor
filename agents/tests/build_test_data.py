@@ -26,7 +26,7 @@ class Build:
         api_key = APIKey.objects.get(model_name="gpt-3.5-turbo")
 
         config1 = LLMConfig.objects.create(
-            name="standard",
+            name="assistant",
             timeout=600,
             cache_seed=42,
             temperature=0,
@@ -40,7 +40,7 @@ class Build:
         agents = [
             Agent(
                 name="assistant",
-                agent_type="assistant_agent",
+                agent_type="assistant",
                 _code_execution_config=True,
                 llm_config=config
             )
@@ -50,14 +50,15 @@ class Build:
 
     @staticmethod
     def build_user_proxy_agents() -> None:
-        config = LLMConfig.objects.get(name="user_proxy")
+        # config = LLMConfig.objects.get(name="user_proxy")
 
         agents = [
             Agent(
-                name="summarization_agent",
-                agent_type="user_proxy_agent",
-                _code_execution_config=True,
-                llm_config=config,
+                name="User Proxy",
+                agent_type="user_proxy",
+                _code_execution_config=False,
+                human_input_mode="NEVER",
+
             )
         ]
 
