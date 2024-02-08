@@ -114,7 +114,7 @@ class LLMConfig(models.Model):
             "timeout": self.timeout,
             "cache_seed": self.cache_seed,
             "config_list": config_list,
-            "temperature": "temperature"
+            "temperature": self.temperature
         }
 
         return config_file
