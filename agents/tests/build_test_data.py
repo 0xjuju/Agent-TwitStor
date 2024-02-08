@@ -41,7 +41,7 @@ class Build:
             Agent(
                 name="assistant",
                 agent_type="assistant_agent",
-                _code_execution_config=False,
+                _code_execution_config=True,
                 llm_config=config
             )
         ]
@@ -56,9 +56,8 @@ class Build:
             Agent(
                 name="summarization_agent",
                 agent_type="user_proxy_agent",
-                _code_execution_config=True,
+                _code_execution_config=False,
                 system_message="Summarize the given article. Give it the title 'TL;DR'",
-                llm_config=config,
             )
         ]
 
