@@ -1,5 +1,8 @@
 
 import autogen
+from autogen import AssistantAgent, UserProxyAgent
+from autogen.agentchat.contrib.retrieve_assistant_agent import RetrieveAssistantAgent
+from autogen.agentchat.contrib.retrieve_user_proxy_agent import RetrieveUserProxyAgent
 import decouple
 from django.db import models
 from typing import Union
@@ -9,6 +12,8 @@ class Agent(models.Model):
     agent_type_choices = (
         ("assistant", "assistant", ),
         ("user_proxy", "user_proxy", ),
+        ("retrieval_assistant", "retrieval_assistant",),
+        ("retrieval_user_proxy", "retrieval_user_proxy",),
     )
 
     human_input_choices = (
@@ -31,7 +36,12 @@ class Agent(models.Model):
     def __str__(self):
         return self.name
 
-    def get_agent(self) -> Union[autogen.UserProxyAgent, autogen.AssistantAgent]:
+    def get_agent(self) -> Union[
+        UserProxyAgent,
+        AssistantAgent,
+        RetrieveAssistantAgent,
+        RetrieveUserProxyAgent
+    ]:
         fields = {
             "name": self.name,
             "max_consecutive_auto_reply": self.max_consecutive_reply,
