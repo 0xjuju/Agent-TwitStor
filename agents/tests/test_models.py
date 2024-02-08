@@ -9,9 +9,12 @@ class TestModels(TestCase):
         Build().build_data()
         self.agent = Agent.objects.get(name="summarization_agent")
 
-    def test_agent_user_agent_proxy(self):
+    def test_agents(self):
         user_proxy_agent = self.agent.user_proxy_agent()
-        print(user_proxy_agent)
+        assistant_agent = self.agent.assistant_agent()
+        print(assistant_agent)
+
+        user_proxy_agent.initiate_chat(assistant_agent, message="Plot a chart of NVDA and TESLA stock price change YTD.")
 
 
 

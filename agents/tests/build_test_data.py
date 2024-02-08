@@ -14,7 +14,7 @@ class Build:
     def build_api_keys():
         keys = [
             APIKey(
-                model_name="openai",
+                model_name="gpt-3.5-turbo",
                 _value="OPEN_AI_SECRET_KEY",
             ),
         ]
@@ -23,7 +23,7 @@ class Build:
 
     @staticmethod
     def build_llm_configs():
-        api_key = APIKey.objects.get(model_name="openai")
+        api_key = APIKey.objects.get(model_name="gpt-3.5-turbo")
 
         config1 = LLMConfig.objects.create(
             name="standard",
@@ -40,7 +40,7 @@ class Build:
         agents = [
             Agent(
                 name="assistant",
-                agent_Type="assistant_agent",
+                agent_type="assistant_agent",
                 _code_execution_config=False,
                 llm_config=config
             )
