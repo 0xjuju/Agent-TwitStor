@@ -59,13 +59,11 @@ class Agent(models.Model):
         if self._is_termination_message:
             fields["is_termination_msg"] = lambda x: x.get("content", "").rstrip().endswith("TERMINATE")
 
-        print(fields)
-
         if self.agent_type == "user_proxy":
-            return autogen.UserProxyAgent(**fields)
+            return UserProxyAgent(**fields)
 
         elif self.agent_type == "assistant":
-            return autogen.AssistantAgent(**fields)
+            return AssistantAgent(**fields)
 
     def code_execution_config(self) -> Union[dict[str, str], dict]:
 
