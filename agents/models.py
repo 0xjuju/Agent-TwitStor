@@ -19,34 +19,37 @@ class Agent(models.Model):
 
     name = models.CharField(max_length=255, default="")
     agent_type = models.CharField(max_length=255, default="assistant")
-    _code_execution_config = models.BooleanField(default=True)
+    use_code_execution = models.BooleanField(default=False)
     system_message = models.CharField(max_length=255, default="")
     human_input_mode = models.CharField(max_length=255, default="ALWAYS", choices=human_input_choices)
-    max_consecutive_reply = models.IntegerField(default=0)
+    max_consecutive_reply = models.IntegerField(default=10)
     _is_termination_message = models.BooleanField(default=False)
     description = models.TextField(default="")
+    use_docker = models.BooleanField(default=False)
     llm_config = models.ForeignKey("LLMConfig", null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
-    def get_agent(self) -> Union[
-        autogen.UserProxyAgent,
-        autogen.AssistantAgent
-    ]:
-
-        llm_config = self.llm_config.value if self.llm_config else None
-
+    def get_agent(self) -> Union[autogen.UserProxyAgent, autogen.AssistantAgent]:
         fields = {
             "name": self.name,
-            "llm_config": llm_config,
-            "human_input_mode": self.human_input_mode,
             "max_consecutive_auto_reply": self.max_consecutive_reply,
-            "code_execution_config": self.code_execution_config()
         }
+
+        if self.use_code_execution:
+            fields["code_execution_config"] = self.code_execution_config()
+
+        if self.human_input_mode:
+            fields["human_input_mode"] = self.human_input_mode
+
+        if self.llm_config:
+            fields["llm_config"] = self.llm_config.value
 
         if self._is_termination_message:
             fields["is_termination_msg"] = lambda x: x.get("content", "").rstrip().endswith("TERMINATE")
+
+        print(fields)
 
         if self.agent_type == "user_proxy":
             return autogen.UserProxyAgent(**fields)
@@ -56,7 +59,7 @@ class Agent(models.Model):
 
     def code_execution_config(self) -> Union[dict[str, str], dict]:
 
-        if self._code_execution_config:
+        if self.use_code_execution:
             return {
                 "work_dir": "coding",
                 "use_docker": False,

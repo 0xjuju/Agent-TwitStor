@@ -50,8 +50,6 @@ class Build:
             Agent(
                 name="assistant",
                 agent_type="assistant",
-                _code_execution_config=False,
-                human_input_mode="ALWAYS",
                 llm_config=config
             )
         ]
@@ -66,10 +64,7 @@ class Build:
             Agent(
                 name="user_proxy",
                 agent_type="user_proxy",
-                _code_execution_config=True,
-                llm_config=config,
-                human_input_mode="NEVER",
-                _is_termination_message=True,
+                use_code_execution=True,
             )
         ]
 

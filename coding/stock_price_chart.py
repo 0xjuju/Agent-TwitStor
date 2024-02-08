@@ -1,25 +1,18 @@
 # filename: stock_price_chart.py
-import pandas as pd
+import yfinance as yf
 import matplotlib.pyplot as plt
 
-# Read the historical stock price data for NVDA and TESLA from CSV files
-nvda_data = pd.read_csv('path_to_nvda_csv_file.csv')
-tesla_data = pd.read_csv('path_to_tesla_csv_file.csv')
+# Define the ticker symbols for NVDA and TESLA
+tickers = ['NVDA', 'TSLA']
 
-# Convert the date column to datetime format
-nvda_data['Date'] = pd.to_datetime(nvda_data['Date'])
-tesla_data['Date'] = pd.to_datetime(tesla_data['Date'])
+# Fetch the historical stock price data for YTD
+data = yf.download(tickers, start='2021-01-01', end='2021-12-31')
 
-# Calculate the YTD price change for NVDA and TESLA
-nvda_ytd_change = (nvda_data['Close'].iloc[-1] - nvda_data['Close'].iloc[0]) / nvda_data['Close'].iloc[0] * 100
-tesla_ytd_change = (tesla_data['Close'].iloc[-1] - tesla_data['Close'].iloc[0]) / tesla_data['Close'].iloc[0] * 100
+# Extract the 'Close' price column for each ticker
+close_prices = data['Close']
 
-# Plot the YTD price change for NVDA and TESLA
-plt.figure(figsize=(10, 5))
-plt.plot(nvda_data['Date'], nvda_data['Close'], label='NVDA')
-plt.plot(tesla_data['Date'], tesla_data['Close'], label='TESLA')
-plt.title('YTD Stock Price Change')
-plt.xlabel('Date')
-plt.ylabel('Closing Price')
-plt.legend()
+# Plot the stock price change YTD
+close_prices.plot(title='Stock Price Change YTD', ylabel='Price (USD)')
+
+# Display the chart
 plt.show()
