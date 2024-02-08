@@ -29,7 +29,7 @@ class Build:
             name="standard",
             timeout=600,
             cache_seed=42,
-            temperature=25,
+            temperature=0,
         )
         config1.save()
         config1.api_keys.add(api_key)

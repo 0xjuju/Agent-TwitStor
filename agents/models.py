@@ -74,12 +74,11 @@ class Agent(models.Model):
             raise ValueError(f"{human_input_mode} not an option. Choices are: {input_modes}")
 
         llm_config = self.llm_config.value
-
         agent = autogen.UserProxyAgent(
             name=self.name,
             human_input_mode=human_input_mode,
             max_consecutive_auto_reply=max_consecutive_auto_reply,
-            code_execution_config=self._code_execution_config,
+            code_execution_config=self.code_execution_config(work_dir="_output"),
             llm_config=llm_config,
             system_message=self.system_message,
             is_termination_msg=is_termination_message,
