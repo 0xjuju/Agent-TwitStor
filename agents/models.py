@@ -40,7 +40,8 @@ class Agent(models.Model):
         UserProxyAgent,
         AssistantAgent,
         RetrieveAssistantAgent,
-        RetrieveUserProxyAgent
+        RetrieveUserProxyAgent,
+        None
     ]:
         fields = {
             "name": self.name,
@@ -53,17 +54,22 @@ class Agent(models.Model):
         if self.human_input_mode:
             fields["human_input_mode"] = self.human_input_mode
 
+        if self.system_message:
+            fields["system_message"] = self.system_message
+
         if self.llm_config:
             fields["llm_config"] = self.llm_config.value
 
         if self._is_termination_message:
             fields["is_termination_msg"] = lambda x: x.get("content", "").rstrip().endswith("TERMINATE")
 
-        if self.agent_type == "user_proxy":
-            return UserProxyAgent(**fields)
-
-        elif self.agent_type == "assistant":
-            return AssistantAgent(**fields)
+        agent = {
+            "user_proxy": UserProxyAgent(**fields),
+            "assistant": AssistantAgent(**fields),
+            "retrieval_user_proxy": RetrieveUserProxyAgent(**fields),
+            "retrieval_assistant": RetrieveAssistantAgent(**fields),
+        }
+        return agent.get(self.agent_type) or None
 
     def code_execution_config(self) -> Union[dict[str, str], dict]:
 
