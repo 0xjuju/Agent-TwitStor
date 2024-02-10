@@ -43,6 +43,15 @@ class Build:
         config2.save()
         config2.api_keys.add(api_key)
 
+        config3 = LLMConfig.objects.create(
+            name="retrieval_assistant",
+            timeout=600,
+            cache_seed=42,
+            temperature=0,
+        )
+        config3.save()
+        config3.api_keys.add(api_key)
+
     @staticmethod
     def build_assistant_agent():
         config = LLMConfig.objects.get(name="assistant")
@@ -65,6 +74,31 @@ class Build:
                 name="user_proxy",
                 agent_type="user_proxy",
                 use_code_execution=True,
+            )
+        ]
+
+        Agent.objects.bulk_create(agents)
+
+    @staticmethod
+    def build_retrieval_assistants():
+        agents = [
+            Agent(
+                name="retrieval_assistant",
+                agent_type="retrieval_assistant",
+                system_message="You are a helpful assistant",
+                llm_config=LLMConfig.objects.get(name="retrieval_assistant")
+            )
+        ]
+
+        Agent.object.bulk_create(agents)
+
+    @staticmethod
+    def build_retrieval_user_proxy():
+        agents = [
+            Agent(
+                name="retrieval_user_proxy",
+                agent_type="retrieval_user_proxy",
+
             )
         ]
 
