@@ -36,7 +36,7 @@ class Agent(models.Model):
     def __str__(self):
         return self.name
 
-    def get_agent(self) -> Union[
+    def get_agent(self, **kwargs) -> Union[
         UserProxyAgent,
         AssistantAgent,
         RetrieveAssistantAgent,
@@ -47,6 +47,12 @@ class Agent(models.Model):
             "name": self.name,
             "max_consecutive_auto_reply": self.max_consecutive_reply,
         }
+
+        if self.agent_type == "retrieval_user_proxy":
+            fields["retrieve_config"] = {
+                "task": kwargs["task"],
+                "docs_path": kwargs["docs_path"]
+            }
 
         if self.use_code_execution:
             fields["code_execution_config"] = self.code_execution_config()
