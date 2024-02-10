@@ -46,10 +46,8 @@ class Agent(models.Model):
         fields = {
             "name": self.name,
             "max_consecutive_auto_reply": self.max_consecutive_reply,
+            "code_execution_config": self.code_execution_config() if self.use_code_execution else {}
         }
-
-        if self.use_code_execution:
-            fields["code_execution_config"] = self.code_execution_config()
 
         if self.human_input_mode:
             fields["human_input_mode"] = self.human_input_mode
