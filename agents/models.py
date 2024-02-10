@@ -48,12 +48,6 @@ class Agent(models.Model):
             "max_consecutive_auto_reply": self.max_consecutive_reply,
         }
 
-        if self.agent_type == "retrieval_user_proxy":
-            fields["retrieve_config"] = {
-                "task": kwargs["task"],
-                "docs_path": kwargs["docs_path"]
-            }
-
         if self.use_code_execution:
             fields["code_execution_config"] = self.code_execution_config()
 
@@ -69,14 +63,26 @@ class Agent(models.Model):
         if self._is_termination_message:
             fields["is_termination_msg"] = lambda x: x.get("content", "").rstrip().endswith("TERMINATE")
 
-        agent = {
-            "user_proxy": UserProxyAgent(**fields),
-            "assistant": AssistantAgent(**fields),
-            "retrieval_user_proxy": RetrieveUserProxyAgent(**fields),
-            "retrieval_assistant": RetrieveAssistantAgent(**fields),
-        }
+        if self.agent_type == "user_proxy":
+            agent = UserProxyAgent(**fields)
 
-        return agent.get(self.agent_type)
+        elif self.agent_type == "assistant":
+            agent = AssistantAgent(**fields)
+
+        elif self.agent_type == "retrieval_user_proxy":
+            fields["retrieve_config"] = {
+                "task": kwargs["task"],
+                "docs_path": kwargs["docs_path"]
+            }
+            agent = RetrieveUserProxyAgent(**fields)
+
+        elif self.agent_type == "retrieval_assistant":
+            agent = RetrieveAssistantAgent(**fields)
+
+        else:
+            raise ValueError(f"No agent type selected. '{self.agent_type}' not a valid choice")
+
+        return agent
 
     def code_execution_config(self) -> Union[dict[str, str], dict]:
 
