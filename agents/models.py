@@ -75,7 +75,8 @@ class Agent(models.Model):
             "retrieval_user_proxy": RetrieveUserProxyAgent(**fields),
             "retrieval_assistant": RetrieveAssistantAgent(**fields),
         }
-        return agent.get(self.agent_type) or None
+
+        return agent.get(self.agent_type)
 
     def code_execution_config(self) -> Union[dict[str, str], dict]:
 

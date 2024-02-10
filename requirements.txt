@@ -1,4 +1,4 @@
 django==5.0.1
-pyautogen==0.2.10
+pyautogen==0.2.12
 python-decouple==3.8
 uagents==0.9.3

@@ -9,6 +9,8 @@ class Build:
         self.build_llm_configs()
         self.build_user_proxy_agents()
         self.build_assistant_agent()
+        self.build_retrieval_assistants()
+        self.build_retrieval_user_proxy()
 
     @staticmethod
     def build_api_keys():
@@ -90,7 +92,7 @@ class Build:
             )
         ]
 
-        Agent.object.bulk_create(agents)
+        Agent.objects.bulk_create(agents)
 
     @staticmethod
     def build_retrieval_user_proxy():
