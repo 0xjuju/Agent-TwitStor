@@ -1,5 +1,4 @@
 
-import autogen
 from autogen import AssistantAgent, UserProxyAgent
 from autogen.agentchat.contrib.retrieve_assistant_agent import RetrieveAssistantAgent
 from autogen.agentchat.contrib.retrieve_user_proxy_agent import RetrieveUserProxyAgent
