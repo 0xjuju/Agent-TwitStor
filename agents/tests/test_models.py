@@ -27,6 +27,9 @@ class TestModels(TestCase):
 
         rag_proxy_agent.initiate_chat(rag_assistant, problem="What is Autogen")
 
+    def test_teachable_agent(self):
+        pass
+
 
 
 

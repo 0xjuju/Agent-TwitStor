@@ -7,10 +7,46 @@ class Build:
     def build_data(self):
         self.build_api_keys()
         self.build_llm_configs()
-        self.build_user_proxy_agents()
-        self.build_assistant_agent()
-        self.build_retrieval_assistants()
-        self.build_retrieval_user_proxy()
+        self.build_agents()
+
+    @staticmethod
+    def build_agents():
+        agents = [
+            Agent(
+                name="assistant",
+                agent_type="assistant",
+                llm_config=LLMConfig.objects.get(name="assistant")
+            ),
+
+            Agent(
+                name="user_proxy",
+                agent_type="user_proxy",
+                use_code_execution=True,
+            ),
+
+            Agent(
+                name="retrieval_assistant",
+                agent_type="retrieval_assistant",
+                system_message="You are a helpful assistant",
+                llm_config=LLMConfig.objects.get(name="retrieval_assistant")
+            ),
+
+            Agent(
+                name="retrieval_user_proxy",
+                agent_type="retrieval_user_proxy",
+
+            ),
+
+            Agent(
+                name="teachable",
+                agent_type="teachable",
+                llm_config=LLMConfig.objects.get(name="retrieval_assistant")
+            )
+
+
+        ]
+
+        Agent.objects.bulk_create(agents)
 
     @staticmethod
     def build_api_keys():
@@ -54,57 +90,6 @@ class Build:
         config3.save()
         config3.api_keys.add(api_key)
 
-    @staticmethod
-    def build_assistant_agent():
-        config = LLMConfig.objects.get(name="assistant")
-        agents = [
-            Agent(
-                name="assistant",
-                agent_type="assistant",
-                llm_config=config
-            )
-        ]
-
-        Agent.objects.bulk_create(agents)
-
-    @staticmethod
-    def build_user_proxy_agents() -> None:
-        config = LLMConfig.objects.get(name="user_proxy")
-
-        agents = [
-            Agent(
-                name="user_proxy",
-                agent_type="user_proxy",
-                use_code_execution=True,
-            )
-        ]
-
-        Agent.objects.bulk_create(agents)
-
-    @staticmethod
-    def build_retrieval_assistants():
-        agents = [
-            Agent(
-                name="retrieval_assistant",
-                agent_type="retrieval_assistant",
-                system_message="You are a helpful assistant",
-                llm_config=LLMConfig.objects.get(name="retrieval_assistant")
-            )
-        ]
-
-        Agent.objects.bulk_create(agents)
-
-    @staticmethod
-    def build_retrieval_user_proxy():
-        agents = [
-            Agent(
-                name="retrieval_user_proxy",
-                agent_type="retrieval_user_proxy",
-
-            )
-        ]
-
-        Agent.objects.bulk_create(agents)
 
 
 
