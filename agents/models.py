@@ -1,7 +1,8 @@
 
-from autogen import AssistantAgent, UserProxyAgent
+from autogen import AssistantAgent, ConversableAgent, UserProxyAgent
 from autogen.agentchat.contrib.retrieve_assistant_agent import RetrieveAssistantAgent
 from autogen.agentchat.contrib.retrieve_user_proxy_agent import RetrieveUserProxyAgent
+from autogen.agentchat.contrib.capabilities.teachability import Teachability
 import decouple
 from django.db import models
 from typing import Union
@@ -75,6 +76,15 @@ class Agent(models.Model):
 
         elif self.agent_type == "retrieval_assistant":
             agent = RetrieveAssistantAgent(**fields)
+
+        elif self.agent_type == "teachable":
+            agent = ConversableAgent(**fields)
+            teachability = Teachability(
+                reset_db=False,
+                path_to_db_dir="db.sqlite3"
+            )
+
+            teachability.add_to_agent(agent)
 
         else:
             raise ValueError(f"No agent type selected. '{self.agent_type}' not a valid choice")
