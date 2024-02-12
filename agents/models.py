@@ -80,8 +80,8 @@ class Agent(models.Model):
         elif self.agent_type == "teachable":
             agent = ConversableAgent(**fields)
             teachability = Teachability(
-                reset_db=False,
-                path_to_db_dir="db.sqlite3"
+                reset_db=kwargs.get("reset_db"),
+                path_to_db_dir="./tmp/teachability_db"
             )
 
             teachability.add_to_agent(agent)

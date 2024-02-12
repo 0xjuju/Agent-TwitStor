@@ -11,6 +11,7 @@ class TestModels(TestCase):
         self.assistant = Agent.objects.get(name="assistant")
         self.rag_user_proxy = Agent.objects.get(name="retrieval_user_proxy")
         self.rag_assistant = Agent.objects.get(name="retrieval_assistant")
+        self.teacher = Agent.objects.get(name="teachable")
 
     def test_agents(self):
         user_proxy_agent = self.user_agent.get_agent()
@@ -28,7 +29,12 @@ class TestModels(TestCase):
         rag_proxy_agent.initiate_chat(rag_assistant, problem="What is Autogen")
 
     def test_teachable_agent(self):
-        pass
+        user = self.user_agent.get_agent()
+        teacher_agent = self.teacher.get_agent(reset_db=True)
+
+        teacher_agent.initiate_chat(user, message="Greetings, I'm a teachable user assistant! What's on your mind today?")
+
+
 
 
 

@@ -1,4 +1,3 @@
-import autogen
 from agents.models import *
 
 
@@ -40,7 +39,8 @@ class Build:
             Agent(
                 name="teachable",
                 agent_type="teachable",
-                llm_config=LLMConfig.objects.get(name="retrieval_assistant")
+                use_code_execution=True,
+                llm_config=LLMConfig.objects.get(name="retrieval_assistant"),
             )
 
 
@@ -52,7 +52,7 @@ class Build:
     def build_api_keys():
         keys = [
             APIKey(
-                model_name="gpt-3.5-turbo",
+                model_name="gpt-4",
                 _value="OPENAI_API_KEY",
             ),
         ]
@@ -61,7 +61,7 @@ class Build:
 
     @staticmethod
     def build_llm_configs():
-        api_key = APIKey.objects.get(model_name="gpt-3.5-turbo")
+        api_key = APIKey.objects.get(model_name="gpt-4")
 
         config1 = LLMConfig.objects.create(
             name="assistant",
