@@ -13,6 +13,7 @@ class Account(models.Model):
 
 class Post(models.Model):
     post_id = models.BigIntegerField(default=0)
+    post_date = models.DateTimeField(null=True)
     description = models.TextField(default="")
     likes = models.IntegerField(default=0)
     comments = models.IntegerField(default=0)
