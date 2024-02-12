@@ -8,5 +8,6 @@ class Account(models.Model):
     website = models.URLField(max_length=255)
     linkedin = models.URLField(max_length=255)
     medium = models.URLField(max_length=255)
+    follower_count = models.IntegerField(default=0)
 
 
