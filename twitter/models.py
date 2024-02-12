@@ -11,3 +11,13 @@ class Account(models.Model):
     follower_count = models.IntegerField(default=0)
 
 
+class Post(models.Model):
+    post_id = models.BigIntegerField(default=0)
+    description = models.TextField(default="")
+    likes = models.IntegerField(default=0)
+    comments = models.IntegerField(default=0)
+    retweets = models.IntegerField(default=0)
+    views = models.IntegerField(default=0)
+    account = models.ForeignKey(Account, models.CASCADE)
+
+
