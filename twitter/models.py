@@ -20,5 +20,6 @@ class Post(models.Model):
     retweets = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
     account = models.ForeignKey(Account, models.CASCADE)
+    image = models.ImageField(null=True)
 
 
