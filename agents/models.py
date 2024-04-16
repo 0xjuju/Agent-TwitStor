@@ -70,7 +70,7 @@ class Agent(models.Model):
         elif self.agent_type == "retrieval_user_proxy":
             fields["retrieve_config"] = {
                 "task": kwargs["task"],
-                "docs_path": kwargs["docs_path"]
+                "docs_path": kwargs["docs_path"],
             }
             agent = RetrieveUserProxyAgent(**fields)
 

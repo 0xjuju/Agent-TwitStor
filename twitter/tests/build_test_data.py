@@ -25,3 +25,10 @@ class Build:
 
         Account.objects.bulk_create(accounts)
 
+    @staticmethod
+    def build_posts():
+        posts = [
+            Post(
+
+            )
+        ]
