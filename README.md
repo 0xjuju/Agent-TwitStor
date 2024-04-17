@@ -2,7 +2,9 @@
 Use AI Agents to create short stories. The system relies on a "Writer", "Audience", and "Critic" agent.
 
 ### <u>Writer Agent<u/>
-Uses retrieval augmentation to learn the structure and styles of highly acclaimed novels and writing styles
+Uses retrieval augmentation to learn the structure and styles of highly acclaimed novels and writing styles. Given user
+context about characters, settings, tone, conflicts etc., this agent will create a short story combining these ideas with
+a well-structured writing format and story transition.
 
 ### <u>Audience Agenet<u/>
 Learn different aspects of what users tend to like about books (characters, plot, story transition etc.) through public,
