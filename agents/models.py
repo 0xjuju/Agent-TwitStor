@@ -19,7 +19,7 @@ class Agent(models.Model):
     human_input_choices = (
         ("NEVER", "NEVER",),
         ("ALWAYS", "ALWAYS",),
-        ("TERMINATE", "TERMINATE",),
+        ("TERMINATE", "TERMINATE", ),
     )
 
     name = models.CharField(max_length=255, default="")
@@ -128,6 +128,21 @@ class LLMConfig(models.Model):
         }
 
         return config_file
+
+
+class Prompt(models.Model):
+    story = models.ForeignKey("book.Story", on_delete=models.SET_NULL, null=True)
+    training_sources = models.ManyToManyField("TrainingSource")
+    agent = models.ForeignKey(Agent, on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=255, default="")
+    description = models.TextField(default="", blank=True)
+    initial_prompt = models.TextField(default="", blank=True)
+
+
+class TrainingSource(models.Model):
+    name = models.CharField(max_length=255, default="")
+    genre = models.CharField(max_length=255, default="")
+    source = models.CharField(max_length=255, default="")
 
 
 
