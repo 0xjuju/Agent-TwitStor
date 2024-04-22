@@ -68,7 +68,7 @@ WSGI_APPLICATION = '_settings.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.parse(decouple.config("DATABASE"))
+    'default': dj_database_url.parse(decouple.config("DATABASE_URL"))
 }
 
 
