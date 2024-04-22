@@ -1,4 +1,6 @@
 
+import sys
+
 import decouple
 import dj_database_url
 from pathlib import Path
@@ -61,14 +63,18 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = '_settings.wsgi.application'
-
+DATABASES = {}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.parse(decouple.config("DATABASE_URL"))
-}
+if 'test' in sys.argv or 'test_coverage' in sys.argv:  # Covers standard and coverage testing
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mytestdatabase',
+    }
+else:
+    DATABASES["default"] = dj_database_url.parse(decouple.config("DATABASE_URL"))
 
 
 # Password validation
