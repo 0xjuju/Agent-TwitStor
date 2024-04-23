@@ -7,6 +7,7 @@ class Build:
         self.build_api_keys()
         self.build_llm_configs()
         self.build_agents()
+        self.build_training_sources()
 
     @staticmethod
     def build_agents():
@@ -89,6 +90,38 @@ class Build:
         )
         config3.save()
         config3.api_keys.add(api_key)
+
+    @staticmethod
+    def build_training_sources():
+
+        sources = [
+            TrainingSource(
+                name="The Wood Beyond the World",
+                genre="fantasy",
+                source="https://www.gutenberg.org/cache/epub/3055/pg3055.txt"
+            ),
+
+            TrainingSource(
+                name="A Faerie Romance for Men and Women",
+                genre="fantasy",
+                source="https://www.gutenberg.org/cache/epub/325/pg325.txt"
+            ),
+
+            TrainingSource(
+                name="The King of Elfland's Daughter",
+                genre="fantasy",
+                source="https://www.gutenberg.org/cache/epub/61077/pg61077.txt"
+            ),
+        ]
+
+        TrainingSource.objects.bulk_create(sources)
+
+
+
+
+
+
+
 
 
 
