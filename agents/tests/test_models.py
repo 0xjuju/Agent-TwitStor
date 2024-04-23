@@ -19,6 +19,10 @@ class TestModels(TestCase):
 
         user_proxy_agent.initiate_chat(assistant_agent, message="Plot a chart of NVDA and TESLA stock price change YTD.")
 
+    def test_get_data_from_url(self):
+        data = TrainingSource.get_data_from_url("https://www.gutenberg.org/cache/epub/3055/pg3055.txt")
+        self.assertEqual(data.status_code, 200)
+
     def test_rag_agents(self):
         rag_proxy_agent = self.rag_user_proxy.get_agent(
             task="qa",
@@ -33,6 +37,7 @@ class TestModels(TestCase):
         teacher_agent = self.teacher.get_agent(reset_db=True)
 
         teacher_agent.initiate_chat(user, message="Greetings, I'm a teachable user assistant! What's on your mind today?")
+
 
 
 

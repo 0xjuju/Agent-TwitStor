@@ -1,3 +1,5 @@
+import requests
+
 
 from autogen import AssistantAgent, ConversableAgent, UserProxyAgent
 from autogen.agentchat.contrib.retrieve_assistant_agent import RetrieveAssistantAgent
@@ -143,6 +145,11 @@ class TrainingSource(models.Model):
     name = models.CharField(max_length=255, default="")
     genre = models.CharField(max_length=255, default="")
     source = models.CharField(max_length=255, default="")
+
+    @staticmethod
+    def get_data_from_url(url: str):
+        return requests.get(url)
+
 
 
 
