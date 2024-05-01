@@ -1,6 +1,7 @@
 import requests
 
 
+from agents.clean_data import *
 from autogen import AssistantAgent, ConversableAgent, UserProxyAgent
 from autogen.agentchat.contrib.retrieve_assistant_agent import RetrieveAssistantAgent
 from autogen.agentchat.contrib.retrieve_user_proxy_agent import RetrieveUserProxyAgent
@@ -150,8 +151,15 @@ class TrainingSource(models.Model):
     def get_data_from_url(url: str):
         return requests.get(url)
 
-    def clean_text(self):
-        pass
+    def clean_text(self, start_from, split_text_delimiter, stop_at=None):
+        if self.source:
+            training_data = self.get_data_from_url(self.source).text
+            data = start_text_at_word(training_data, start_from, stop_at)
+            cleaned_data = split_clean_data(data, split_text_delimiter)
+            return cleaned_data
+
+        else:
+            return None
 
 
 
