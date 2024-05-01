@@ -34,7 +34,6 @@ class Build:
             Agent(
                 name="retrieval_user_proxy",
                 agent_type="retrieval_user_proxy",
-
             ),
 
             Agent(
@@ -93,7 +92,7 @@ class Build:
 
     @staticmethod
     def build_training_sources():
-
+        
         sources = [
             TrainingSource(
                 name="The Wood Beyond the World",

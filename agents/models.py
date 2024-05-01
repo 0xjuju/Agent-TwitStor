@@ -150,6 +150,9 @@ class TrainingSource(models.Model):
     def get_data_from_url(url: str):
         return requests.get(url)
 
+    def clean_text(self):
+        pass
+
 
 
 
