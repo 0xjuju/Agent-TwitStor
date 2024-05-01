@@ -92,12 +92,15 @@ class Build:
 
     @staticmethod
     def build_training_sources():
-        
+
         sources = [
             TrainingSource(
                 name="The Wood Beyond the World",
                 genre="fantasy",
-                source="https://www.gutenberg.org/cache/epub/3055/pg3055.txt"
+                source="https://www.gutenberg.org/cache/epub/3055/pg3055.txt",
+                start_text="CHAPTER I",
+                stop_text="*** END",
+                split_text_delimiter="CHAPTER",
             ),
 
             TrainingSource(

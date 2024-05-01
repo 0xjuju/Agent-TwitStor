@@ -141,21 +141,37 @@ class Prompt(models.Model):
     description = models.TextField(default="", blank=True)
     initial_prompt = models.TextField(default="", blank=True)
 
+    def completion_pairs(self):
+        prompts = list()
+        for source in self.training_sources:
+            prompt_completion_pairs = list()
+            cleaned_data = source.clean_text
+
+            for i in range(len(cleaned_data) - 1):
+                prompt_completion_pairs.append(
+                    {"prompt": cleaned_data[i], "completion": cleaned_data[i + 1]}
+                )
+            prompt_completion_pairs.append({"prompt": "This is the last paragraph", "completion": cleaned_data[-1]})
+            prompts.append(prompt_completion_pairs)
+
 
 class TrainingSource(models.Model):
     name = models.CharField(max_length=255, default="")
     genre = models.CharField(max_length=255, default="")
     source = models.CharField(max_length=255, default="")
+    start_text = models.CharField(max_length=255, default="", blank=True)
+    stop_text = models.CharField(max_length=255, default=None, blank=True, null=True)
+    split_text_delimiter = models.CharField(max_length=255, default="", blank=True)
 
     @staticmethod
     def get_data_from_url(url: str):
         return requests.get(url)
 
-    def clean_text(self, start_from, split_text_delimiter, stop_at=None):
+    def clean_text(self) -> list[str]:
         if self.source:
             training_data = self.get_data_from_url(self.source).text
-            data = start_text_at_word(training_data, start_from, stop_at)
-            cleaned_data = split_clean_data(data, split_text_delimiter)
+            data = start_text_at_word(training_data, self.start_text, self.stop_text)
+            cleaned_data = split_clean_data(data, self.split_text_delimiter)
             return cleaned_data
 
         else:
