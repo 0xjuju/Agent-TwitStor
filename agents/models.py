@@ -146,7 +146,7 @@ class Prompt(models.Model):
     description = models.TextField(default="", blank=True)
     initial_prompt = models.TextField(default="", blank=True)
 
-    def create_finetuned_model(self):
+    def create_fine_tuned_model(self):
         pass
 
     def get_completion_pairs(self):
