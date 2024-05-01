@@ -151,7 +151,7 @@ class Prompt(models.Model):
                 prompt_completion_pairs.append(
                     {"prompt": cleaned_data[i], "completion": cleaned_data[i + 1]}
                 )
-            prompt_completion_pairs.append({"prompt": "This is the last paragraph", "completion": cleaned_data[-1]})
+            prompt_completion_pairs.append({"prompt": "This is the last chapter of the book", "completion": cleaned_data[-1]})
             prompts.append(prompt_completion_pairs)
 
 
