@@ -113,6 +113,11 @@ class APIKey(models.Model):
         return decouple.config(self._value)
 
 
+class FineTunedModel(models.Model):
+    model_id = models.CharField(max_length=255)
+    prompt = models.ForeignKey("Prompt", on_delete=models.SET_NULL, null=True)
+
+
 class LLMConfig(models.Model):
     name = models.CharField(max_length=255, default="")
     api_keys = models.ManyToManyField(APIKey)
@@ -140,6 +145,9 @@ class Prompt(models.Model):
     name = models.CharField(max_length=255, default="")
     description = models.TextField(default="", blank=True)
     initial_prompt = models.TextField(default="", blank=True)
+
+    def create_finetuned_model(self):
+        pass
 
     def get_completion_pairs(self):
         prompts = list()
