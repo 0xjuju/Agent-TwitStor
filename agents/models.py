@@ -141,7 +141,7 @@ class Prompt(models.Model):
     description = models.TextField(default="", blank=True)
     initial_prompt = models.TextField(default="", blank=True)
 
-    def completion_pairs(self):
+    def get_completion_pairs(self):
         prompts = list()
         for source in self.training_sources:
             prompt_completion_pairs = list()
