@@ -1,11 +1,18 @@
 
 from django.test import TestCase
 from agents.clean_data import *
+from agents.models import TrainingSource
 
 
 class TestCleanData(TestCase):
     def setUp(self):
         pass
+
+    def test_split_clean_data(self):
+        training_data = TrainingSource.get_data_from_url("https://www.gutenberg.org/cache/epub/3055/pg3055.txt").text
+        cleaned = start_text_at_word(training_data, "Chapter I", "*** END")
+        cleaned = split_clean_data(cleaned, "CHAPTER ")
+        self.assertEqual(cleaned[0][0:5], "I: OF")
 
     def test_start_text_at_word(self):
         word = "langton"
@@ -25,7 +32,7 @@ was he called Bartholomew Golden, and his son Golden Walter."""
         new_text = start_text_at_word(text, word)
         self.assertEqual(new_text[0:16], "Langton on Holm.")
 
-s
+
 
 
 
