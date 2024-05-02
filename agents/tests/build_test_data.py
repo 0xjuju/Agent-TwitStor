@@ -11,6 +11,7 @@ class Build:
         self.build_llm_configs()
         self.build_agents()
         self.build_training_sources()
+        self.build_prompts()
 
     @staticmethod
     def build_agents():
