@@ -11,13 +11,14 @@ class BaseStory(models.Model):
 
 class Character(BaseStory):
     name = models.CharField(max_length=155, default="", blank=True)
-    birthday = models.DateField()
+    role = models.CharField(max_length=255, default="", blank=True)
+    birthday = models.DateField(null=True)
     background = models.TextField(default="", blank=True)
 
 
 class Setting(BaseStory):
     description = models.TextField(default="", blank=True)
-    timeline = models.DateField(null=True)
+    timeline = models.DateField(null=True, blank=True)
 
 
 class Story(models.Model):
@@ -26,7 +27,7 @@ class Story(models.Model):
 
 
 class Tone(BaseStory):
-    name = models.CharField(max_length=255, default="")
+    name = models.CharField(max_length=255, default="", blank=True)
 
 
 
