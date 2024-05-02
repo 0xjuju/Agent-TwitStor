@@ -123,6 +123,16 @@ class FineTunedModel(models.Model):
     @staticmethod
     def finetune_parameters(n_epochs: int = 3, batch_size: int = 3, learning_rate_multiplier: float = 0.1,
                             hypertune_parameters=False):
+        """
+
+        :param n_epochs: Number of times data is passed through the model. Higher = better learning + possible overfitting
+        :param batch_size: Determines how many examples are processed before the model's internal parameters are updated.
+            Smaller batch sizes can lead to a more granular update path, but may increase training time.
+        :param learning_rate_multiplier: A higher learning rate can speed up training but might overshoot optimal
+        weights, while a lower rate might converge more reliably but take longe
+        :param hypertune_parameters: Use Bayesian Optimization or not
+        :return:
+        """
 
         if hypertune_parameters is True:
             pass
