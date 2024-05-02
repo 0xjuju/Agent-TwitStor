@@ -152,7 +152,7 @@ class Prompt(models.Model):
         pass
 
     def save_completion_pairs(self):
-        title = self.story.title.replace(" ", "_")
+        title = self.name.replace(" ", "_")
         with open(f"agents/files/{title}.jsonl", "w") as f:
 
             for source in self.training_sources.all():
@@ -162,7 +162,7 @@ class Prompt(models.Model):
 
                 f.write(
                     json.dumps(
-                        {"prompt": f"This is the beginning of a book", "completion": f"[Book {count}] {self.story.title}"}
+                        {"prompt": f"This is the beginning of a book", "completion": f"[Book {count}] {source.name}"}
                     ) + "\n"
                 )
 
