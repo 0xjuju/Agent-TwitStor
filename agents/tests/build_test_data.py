@@ -12,6 +12,7 @@ class Build:
         self.build_agents()
         self.build_training_sources()
         self.build_prompts()
+        self.build_fine_tuned_models()
 
     @staticmethod
     def build_agents():
@@ -62,6 +63,14 @@ class Build:
         ]
 
         APIKey.objects.bulk_create(keys)
+
+    @staticmethod
+    def build_fine_tuned_models():
+        fine_tuned_models = [
+            FineTunedModel(prompt=Prompt.objects.get("Test Fantasy Prompt"))
+        ]
+
+        FineTunedModel.objects.bulk_create(fine_tuned_models)
 
     @staticmethod
     def build_llm_configs():
