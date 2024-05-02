@@ -9,7 +9,7 @@ from autogen.agentchat.contrib.retrieve_user_proxy_agent import RetrieveUserProx
 from autogen.agentchat.contrib.capabilities.teachability import Teachability
 import decouple
 from django.db import models
-import openai
+from openai import OpenAI
 from typing import Union
 
 
@@ -122,15 +122,16 @@ class FineTunedModel(models.Model):
 
     def upload_training_data_to_openai(self):
         name = self.prompt.name.replace(" ", "_")
-        with open(f"{name}.jsonl", "rb") as f:
-            openai.api_key = decouple.config("OPENAI_API_KEY")
-            response = openai.File.create(
+        client = OpenAI(api_key=decouple.config("OPENAI_API_KEY"))
+        with open(f"agents/files/{name}.jsonl", "rb") as f:
+            response = client.files.create(
                 file=f,
-                prurpose="fine-tune",
+                purpose="fine-tune",
             )
-
-            self.model_id = response["id"]
+            self.model_id = response.id
             self.save()
+
+
 
 
 class LLMConfig(models.Model):

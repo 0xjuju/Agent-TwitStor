@@ -67,7 +67,7 @@ class Build:
     @staticmethod
     def build_fine_tuned_models():
         fine_tuned_models = [
-            FineTunedModel(prompt=Prompt.objects.get("Test Fantasy Prompt"))
+            FineTunedModel(prompt=Prompt.objects.get(name="Test Fantasy Prompt"))
         ]
 
         FineTunedModel.objects.bulk_create(fine_tuned_models)

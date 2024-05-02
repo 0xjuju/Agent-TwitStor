@@ -43,11 +43,17 @@ class TestModels(TestCase):
         user = self.user_agent.get_agent()
         teacher_agent = self.teacher.get_agent(reset_db=True)
 
-        teacher_agent.initiate_chat(user, message="Greetings, I'm a teachable user assistant! What's on your mind today?")
+        teacher_agent.initiate_chat(user,
+                                    message="Greetings, I'm a teachable user assistant! What's on your mind today?")
 
     def test_upload_training_data_to_openai(self):
         m = FineTunedModel.objects.first()
-        m.upload_file_to_openai()
+        m.upload_training_data_to_openai()
+
+        updated = FineTunedModel.objects.filter(model_id=m.model_id).exists()
+        self.assertTrue(updated)
+
+
 
 
 
