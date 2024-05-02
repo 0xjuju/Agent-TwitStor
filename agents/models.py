@@ -167,6 +167,16 @@ class Prompt(models.Model):
         title = self.name.replace(" ", "_")
         with open(f"agents/files/{title}.jsonl", "w") as f:
 
+            f.write(
+                json.dumps(
+                    {"prompt": self.initial_prompt, "completion": "In your narratives, carefully initialize the tone, "
+                                                                  "setting, and characters to capture the reader's "
+                                                                  "interest. Ensure smooth transitions between chapters"
+                                                                  " and effectively build suspense from the beginning "
+                                                                  "and throughout the story."}
+                ) + "\n"
+            )
+
             for source in self.training_sources.all():
 
                 cleaned_data = source.clean_text()
@@ -174,12 +184,12 @@ class Prompt(models.Model):
 
                 f.write(
                     json.dumps(
-                        {"prompt": f"This is the beginning of a book", "completion": f"[Book {count}] {source.name}"}
+                        {"prompt": f"This is the beginning of a book", "completion": f"[Book {count}] {cleaned_data[0]}"}
                     ) + "\n"
                 )
 
                 # Loop through all chapters of the book and create prompt / completion pairs out of them
-                for i in range(len(cleaned_data) - 1):
+                for i in range(len(cleaned_data[1:]) - 1):
 
                     # Use book number and title to create separation in cases of multiple books or training set
 

@@ -100,8 +100,10 @@ class Build:
         prompt_1 = Prompt.objects.create(
                 story=Story.objects.first(),
                 name="Test Fantasy Prompt",
-                initial_prompt="You are a creative writing agent that creates a novel based on user input. If any "
-                               "details about the story is missing, please fill them to create a coherent story."
+                initial_prompt="System: You are a creative writing agent tasked with crafting a novel based on user "
+                               "inputs. Whenever details are missing, intuitively fill them in to ensure the narrative "
+                               "remains coherent. Emulate the style of the reference material without directly copying "
+                               "any specific names, places, or identifiable details from the sources you learn from."
             )
 
         prompt_1.training_sources.add(TrainingSource.objects.get(name="The Wood Beyond the World"))
