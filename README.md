@@ -1,5 +1,10 @@
 ## Description
-Use AI Agents to create short stories. The system relies on a "Writer", "Audience", and "Critic" agent.
+Use AI Agents to create short stories. Training data of
+selected books are used to finetune the model. Bayesian Optimization is used to adjust the parameters of the fine-tuned
+model for optimal fitting of training data. When there are multiple viable training sources, a different agent analyzes
+the different datasets and analyzes the user input for the to-be-created story details. This agent will rank these 
+datasets and determine which of them should be used to finetune the model. Once the model is fine-tuned, a "Writer" agent
+will create the story, and then "Audience" and "Critic" agents are used to critique the work.
 
 ### <u>Writer Agent<u/>
 Uses retrieval augmentation to learn the structure and styles of highly acclaimed novels and writing styles. Given user
