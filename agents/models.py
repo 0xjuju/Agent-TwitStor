@@ -120,6 +120,21 @@ class FineTunedModel(models.Model):
     name = models.CharField(max_length=255, default="")
     prompt = models.ForeignKey("Prompt", on_delete=models.SET_NULL, null=True)
 
+    @staticmethod
+    def finetune_parameters(n_epochs: int = 3, batch_size: int = 3, learning_rate_multiplier: float = 0.1,
+                            hypertune_parameters=False):
+
+        if hypertune_parameters is True:
+            pass
+        else:
+            pass
+
+        return {
+            "n_epochs":  n_epochs,
+            "batch_size": batch_size,
+            "learning_rate_multiplier": learning_rate_multiplier
+        }
+
     def upload_training_data_to_openai(self):
         name = self.prompt.name.replace(" ", "_")
         client = OpenAI(api_key=decouple.config("OPENAI_API_KEY"))
