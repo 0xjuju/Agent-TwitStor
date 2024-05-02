@@ -36,7 +36,8 @@ class TestModels(TestCase):
         rag_proxy_agent.initiate_chat(rag_assistant, problem="What is Autogen")
 
     def test_save_completion_pairs(self):
-        pass
+        prompt = Prompt.objects.get(name="Fantasy Prompt")
+        prompt.save_completion_pairs()
 
     def test_teachable_agent(self):
         user = self.user_agent.get_agent()

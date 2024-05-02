@@ -152,11 +152,12 @@ class Prompt(models.Model):
         pass
 
     def save_completion_pairs(self):
-        with open(f"agents/files/{'_'.join(self.story.title)}.jsonl", "w") as f:
+        title = self.story.title.replace(" ", "_")
+        with open(f"agents/files/{title}.jsonl", "w") as f:
 
-            for source in self.training_sources:
+            for source in self.training_sources.all():
 
-                cleaned_data = source.clean_text
+                cleaned_data = source.clean_text()
                 count = 1
 
                 f.write(

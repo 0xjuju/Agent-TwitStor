@@ -18,7 +18,7 @@ class BuildBookData:
                 message="Greed will contaminate your",
             )
         ]
-        Story.objects.bulk_Create(stories)
+        Story.objects.bulk_create(stories)
 
     @staticmethod
     def build_characters():
@@ -38,7 +38,7 @@ class BuildBookData:
             )
         ]
 
-        Character.objects.bulk_Create(characters)
+        Character.objects.bulk_create(characters)
 
     @staticmethod
     def build_settings():
@@ -52,7 +52,7 @@ class BuildBookData:
             )
         ]
 
-        Setting.objects.bulk_Create(settings)
+        Setting.objects.bulk_create(settings)
 
     @staticmethod
     def build_tones():
