@@ -91,6 +91,10 @@ class Build:
         config3.api_keys.add(api_key)
 
     @staticmethod
+    def build_prompts():
+        pass
+
+    @staticmethod
     def build_training_sources():
 
         sources = [
