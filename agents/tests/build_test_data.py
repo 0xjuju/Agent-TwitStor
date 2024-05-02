@@ -1,9 +1,12 @@
 from agents.models import *
+from book.models import *
+from book.tests.build_book_data import BuildBookData
 
 
 class Build:
 
     def build_data(self):
+        BuildBookData().build_all()
         self.build_api_keys()
         self.build_llm_configs()
         self.build_agents()
@@ -92,7 +95,15 @@ class Build:
 
     @staticmethod
     def build_prompts():
-        pass
+
+        prompt_1 = Prompt.objects.create(
+                story=Story.objects.first(),
+                name="Fantasy Prompt",
+                initial_prompt="You are a creative writing agent that creates a novel based on user input. If any "
+                               "details about the story is missing, please fill them to create a coherent story."
+            )
+
+        prompt_1.training_sources.add(TrainingSource.objects.get(name="The Wood Beyond the World"))
 
     @staticmethod
     def build_training_sources():
