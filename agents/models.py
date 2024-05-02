@@ -149,13 +149,29 @@ class Prompt(models.Model):
     def create_fine_tuned_model(self):
         pass
 
+    # response = openai.FineTune.create(
+    #     training_file='training_data.jsonl',
+    #     model='gpt-3.5-turbo',
+    #     n_epochs=4,
+    #     learning_rate_multiplier=0.1
+    # )
+    #
+    # completion = openai.Completion.create(
+    #     model="your_fine_tuned_model_name",  # Replace with your model's name
+    #     prompt="Initial text from a new paragraph",
+    #     max_tokens=150
+    # )
+    #
+    # print(completion.choices[0].text.strip())
+
     def get_completion_pairs(self):
         prompts = list()
         for source in self.training_sources:
             prompt_completion_pairs = list()
             cleaned_data = source.clean_text
-
+            count = 1
             for i in range(len(cleaned_data) - 1):
+                
                 prompt_completion_pairs.append(
                     {"prompt": cleaned_data[i], "completion": cleaned_data[i + 1]}
                 )

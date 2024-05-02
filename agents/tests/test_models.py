@@ -22,7 +22,6 @@ class TestModels(TestCase):
     def test_clean_training_data(self):
         training_data = TrainingSource.get_data_from_url("https://www.gutenberg.org/cache/epub/3055/pg3055.txt")
 
-
     def test_get_data_from_url(self):
         data = TrainingSource.get_data_from_url("https://www.gutenberg.org/cache/epub/3055/pg3055.txt")
         self.assertEqual(data.status_code, 200)
