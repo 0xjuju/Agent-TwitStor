@@ -4,6 +4,12 @@ from book.models import *
 
 class BuildBookData:
 
+    def build_all(self):
+        self.build_stories()
+        self.build_tones()
+        self.build_settings()
+        self.build_characters()
+
     @staticmethod
     def build_stories():
         stories = [
