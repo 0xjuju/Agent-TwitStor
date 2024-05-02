@@ -45,7 +45,7 @@ class TestModels(TestCase):
 
         teacher_agent.initiate_chat(user, message="Greetings, I'm a teachable user assistant! What's on your mind today?")
 
-    def test_upload_file_to_openai(self):
+    def test_upload_training_data_to_openai(self):
         m = FineTunedModel.objects.first()
         m.upload_file_to_openai()
 

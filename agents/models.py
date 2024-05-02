@@ -120,8 +120,9 @@ class FineTunedModel(models.Model):
     name = models.CharField(max_length=255, default="")
     prompt = models.ForeignKey("Prompt", on_delete=models.SET_NULL, null=True)
 
-    def upload_file_to_openai(self, f):
-        with open(f"{file_name}.jsonl", "rb") as f:
+    def upload_training_data_to_openai(self):
+        name = self.prompt.name.replace(" ", "_")
+        with open(f"{name}.jsonl", "rb") as f:
             openai.api_key = decouple.config("OPENAI_API_KEY")
             response = openai.File.create(
                 file=f,
