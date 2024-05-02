@@ -116,8 +116,20 @@ class APIKey(models.Model):
 
 
 class FineTunedModel(models.Model):
-    model_id = models.CharField(max_length=255)
+    model_id = models.CharField(max_length=255, default="")
+    name = models.CharField(max_length=255, default="")
     prompt = models.ForeignKey("Prompt", on_delete=models.SET_NULL, null=True)
+
+    def upload_file_to_openai(self, file_name):
+        with open(f"{file_name}.jsonl", "rb") as f:
+            openai.api_key = decouple.config("OPENAI_API_KEY")
+            response = openai.File.create(
+                file=f,
+                prurpose="fine-tune",
+            )
+
+            self.model_id = response["id"]
+            self.save()
 
 
 class LLMConfig(models.Model):
