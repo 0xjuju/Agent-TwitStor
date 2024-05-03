@@ -116,9 +116,19 @@ class APIKey(models.Model):
 
 
 class FineTunedModel(models.Model):
+    training_data_id = models.CharField(max_length=255, default="")
     model_id = models.CharField(max_length=255, default="")
     name = models.CharField(max_length=255, default="")
     prompt = models.ForeignKey("Prompt", on_delete=models.SET_NULL, null=True)
+
+    def create_finetune_model(self, model="davinci-002"):
+        client = OpenAI(api_key=decouple.config("OPENAI_API_KEY"))
+        response = client.fine_tuning.jobs.create(
+            training_file=self.training_data_id,
+            model=model
+        )
+        self.model_id = response.id
+        self.save()
 
     @staticmethod
     def finetune_parameters(n_epochs: int = 3, batch_size: int = 3, learning_rate_multiplier: float = 0.1,
@@ -149,17 +159,15 @@ class FineTunedModel(models.Model):
         }
 
     def upload_training_data_to_openai(self):
-        name = self.prompt.name.replace(" ", "_")
+        name = self.prompt.training_data_filename
         client = OpenAI(api_key=decouple.config("OPENAI_API_KEY"))
         with open(f"agents/files/{name}.jsonl", "rb") as f:
             response = client.files.create(
                 file=f,
                 purpose="fine-tune",
             )
-            self.model_id = response.id
+            self.training_data_id = response.id
             self.save()
-
-
 
 
 class LLMConfig(models.Model):
@@ -190,12 +198,8 @@ class Prompt(models.Model):
     description = models.TextField(default="", blank=True)
     initial_prompt = models.TextField(default="", blank=True)
 
-    def create_fine_tuned_model(self):
-        pass
-
     def save_completion_pairs(self):
-        title = self.name.replace(" ", "_")
-        with open(f"agents/files/{title}.jsonl", "w") as f:
+        with open(f"agents/files/{self.training_data_filename}.jsonl", "w") as f:
 
             f.write(
                 json.dumps(
@@ -227,6 +231,10 @@ class Prompt(models.Model):
                 f.write(
                     json.dumps({"prompt": "This is the last chapter of this book", "completion": cleaned_data[-1]}) + "\n")
                 count += 1
+
+    @property
+    def training_data_filename(self):
+        return self.name.replace(" ", "_")
 
 
 class TrainingSource(models.Model):
