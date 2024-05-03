@@ -13,7 +13,6 @@ class TestModels(TestCase):
         self.rag_assistant = Agent.objects.get(name="retrieval_assistant")
         self.teacher = Agent.objects.get(name="teachable")
 
-
     def test_agents(self):
         user_proxy_agent = self.user_agent.get_agent()
         assistant_agent = self.assistant.get_agent()

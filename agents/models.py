@@ -203,22 +203,24 @@ class Prompt(models.Model):
     def break_text_gt_max_tokens(self, data: list[str]):
 
         gpt_models = {
-            "davinci-002": 4096
+            "davinci-002": 1024
         }
 
         max_tokens = gpt_models[self.gpt_model]
-
-        for index, each in enumerate(data[:]):
+        new_data = list()
+        for each in data:
             tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
             tokens = tokenizer.encode(each)
             num_tokens = len(tokens)
             if num_tokens > max_tokens:
-                data[index:index + 1] = [
-                    f"[part 1] {tokenizer.decode(tokens[0:max_tokens - 10])}",
-                    f"[part 2] {tokenizer.decode(tokens[max_tokens - 10:])}"
-                ]
+                for index, chunk in enumerate(range(0, len(tokens), max_tokens)):
+                    broken_text = tokens[chunk: chunk + max_tokens]
+                    text = f"[part {index + 1}] {tokenizer.decode(broken_text)}"
+                    new_data.append(text)
+            else:
+                new_data.append(each)
 
-        return data
+        return new_data
 
     def save_completion_pairs(self):
         with open(f"agents/files/{self.training_data_filename}.jsonl", "w") as f:
