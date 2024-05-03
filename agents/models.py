@@ -10,6 +10,7 @@ from autogen.agentchat.contrib.capabilities.teachability import Teachability
 import decouple
 from django.db import models
 from openai import OpenAI
+from transformers import GPT2Tokenizer
 from typing import Union
 
 
@@ -121,11 +122,11 @@ class FineTunedModel(models.Model):
     name = models.CharField(max_length=255, default="")
     prompt = models.ForeignKey("Prompt", on_delete=models.SET_NULL, null=True)
 
-    def create_finetune_model(self, model="davinci-002"):
+    def create_finetune_model(self):
         client = OpenAI(api_key=decouple.config("OPENAI_API_KEY"))
         response = client.fine_tuning.jobs.create(
             training_file=self.training_data_id,
-            model=model
+            model=self.prompt.gpt_model
         )
         self.model_id = response.id
         self.save()
@@ -195,6 +196,7 @@ class Prompt(models.Model):
     training_sources = models.ManyToManyField("TrainingSource")
     agent = models.ForeignKey(Agent, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=255, default="")
+    gpt_model = models.CharField(max_length=255, default="")
     description = models.TextField(default="", blank=True)
     initial_prompt = models.TextField(default="", blank=True)
 

@@ -27,7 +27,6 @@ class TestModels(TestCase):
         f.upload_training_data_to_openai()
         f.create_finetune_model()
 
-
     def test_get_data_from_url(self):
         data = TrainingSource.get_data_from_url("https://www.gutenberg.org/cache/epub/3055/pg3055.txt")
         self.assertEqual(data.status_code, 200)
