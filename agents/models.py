@@ -200,6 +200,22 @@ class Prompt(models.Model):
     description = models.TextField(default="", blank=True)
     initial_prompt = models.TextField(default="", blank=True)
 
+    def break_text_gt_max_tokens(self, data: list[str]):
+
+        gpt_models = {
+            "davinci-002": 4096
+        }
+
+        max_tokens = gpt_models[self.gpt_model]
+
+        for index, each in enumerate(data[:]):
+            tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+            tokens = tokenizer.encode(each)
+            num_tokens = len(tokens)
+            if num_tokens > max_tokens:
+                data[index:index + 1] = [tokenizer.decode(tokens[0:max_tokens]), tokenizer.decode(tokens[max_tokens:])]
+        return data
+
     def save_completion_pairs(self):
         with open(f"agents/files/{self.training_data_filename}.jsonl", "w") as f:
 

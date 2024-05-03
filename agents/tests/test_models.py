@@ -13,11 +13,17 @@ class TestModels(TestCase):
         self.rag_assistant = Agent.objects.get(name="retrieval_assistant")
         self.teacher = Agent.objects.get(name="teachable")
 
+
     def test_agents(self):
         user_proxy_agent = self.user_agent.get_agent()
         assistant_agent = self.assistant.get_agent()
 
         user_proxy_agent.initiate_chat(assistant_agent, message="Plot a chart of NVDA and TESLA stock price change YTD.")
+
+    def test_break_text_gt_max_tokens(self):
+        text = ["one", "two", "three 3 3 !", "four", "five"]
+        new_text = Prompt.break_text_gt_max_tokens(text)
+        print(new_text)
 
     def test_clean_training_data(self):
         training_data = TrainingSource.get_data_from_url("https://www.gutenberg.org/cache/epub/3055/pg3055.txt")
