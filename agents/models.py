@@ -213,7 +213,7 @@ class Prompt(models.Model):
             tokens = tokenizer.encode(each)
             num_tokens = len(tokens)
             if num_tokens > max_tokens:
-                for index, chunk in enumerate(range(0, len(tokens), max_tokens)):
+                for index, chunk in enumerate(range(0, len(tokens), max_tokens - 6)):
                     broken_text = tokens[chunk: chunk + max_tokens]
                     text = f"[part {index + 1}] {tokenizer.decode(broken_text)}"
                     new_data.append(text)
