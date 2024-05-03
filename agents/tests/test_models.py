@@ -22,7 +22,7 @@ class TestModels(TestCase):
 
     def test_break_text_gt_max_tokens(self):
         text = ["one", "two", "three 3 3 !", "four", "five"]
-        new_text = Prompt.break_text_gt_max_tokens(text)
+        new_text = Prompt.objects.get(name="Test Fantasy Prompt").break_text_gt_max_tokens(text)
         print(new_text)
 
     def test_clean_training_data(self):

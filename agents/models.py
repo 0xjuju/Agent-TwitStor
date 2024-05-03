@@ -213,7 +213,11 @@ class Prompt(models.Model):
             tokens = tokenizer.encode(each)
             num_tokens = len(tokens)
             if num_tokens > max_tokens:
-                data[index:index + 1] = [tokenizer.decode(tokens[0:max_tokens]), tokenizer.decode(tokens[max_tokens:])]
+                data[index:index + 1] = [
+                    f"[part 1] {tokenizer.decode(tokens[0:max_tokens - 10])}",
+                    f"[part 2] {tokenizer.decode(tokens[max_tokens - 10:])}"
+                ]
+
         return data
 
     def save_completion_pairs(self):
