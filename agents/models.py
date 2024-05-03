@@ -235,7 +235,7 @@ class Prompt(models.Model):
 
             for source in self.training_sources.all():
 
-                cleaned_data = source.clean_text()
+                cleaned_data = self.break_text_gt_max_tokens(source.clean_text())
                 count = 1
 
                 f.write(
