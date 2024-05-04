@@ -23,7 +23,7 @@ class Setting(BaseStory):
 
 class Story(models.Model):
     title = models.CharField(max_length=255, default="")
-    message = models.CharField(max_length=255, default="")
+    theme = models.CharField(max_length=255, default="")
 
 
 class Tone(BaseStory):

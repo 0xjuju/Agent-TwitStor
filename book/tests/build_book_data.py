@@ -15,7 +15,7 @@ class BuildBookData:
         stories = [
             Story(
                 title="Test Under the Rainbow",
-                message="Greed will contaminate your",
+                theme="Greed will contaminate your",
             )
         ]
         Story.objects.bulk_create(stories)
