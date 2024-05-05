@@ -3,6 +3,7 @@ import requests
 
 
 from agents.clean_data import *
+from agents.prompts import story_training_prompt, story_training_completion
 from autogen import AssistantAgent, ConversableAgent, UserProxyAgent
 from autogen.agentchat.contrib.retrieve_assistant_agent import RetrieveAssistantAgent
 from autogen.agentchat.contrib.retrieve_user_proxy_agent import RetrieveUserProxyAgent
@@ -222,16 +223,13 @@ class Prompt(models.Model):
 
         return new_data
 
-    def save_completion_pairs(self):
+    def save_completion_pairs(self, story_prompt=None, completion_prompt=None):
         with open(f"agents/files/{self.training_data_filename}.jsonl", "w") as f:
 
             f.write(
                 json.dumps(
-                    {"prompt": self.initial_prompt, "completion": "In your narratives, carefully initialize the tone, "
-                                                                  "setting, and characters to capture the reader's "
-                                                                  "interest. Ensure smooth transitions between chapters"
-                                                                  " and effectively build suspense from the beginning "
-                                                                  "and throughout the story."}
+                    {"prompt": story_training_prompt(prompt=story_prompt),
+                     "completion": story_training_completion(prompt=completion_prompt)}
                 ) + "\n"
             )
 
