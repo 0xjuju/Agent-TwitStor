@@ -14,6 +14,9 @@ class Character(BaseStory):
     role = models.CharField(max_length=255, default="", blank=True)
     birthday = models.DateField(null=True)
     background = models.TextField(default="", blank=True)
+    motivation = models.TextField(default="", blank=True)
+    conflict = models.TextField(default="", blank=True)
+    growth = models.TextField(default="", blank=True)
 
 
 class Setting(BaseStory):
