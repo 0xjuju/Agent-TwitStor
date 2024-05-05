@@ -27,6 +27,7 @@ class Setting(BaseStory):
 class Story(models.Model):
     title = models.CharField(max_length=255, default="")
     theme = models.CharField(max_length=255, default="")
+    conflict = models.CharField(max_length=255, default="", blank=True)
 
 
 class Tone(BaseStory):
