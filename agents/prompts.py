@@ -26,3 +26,18 @@ def story_training_prompt(prompt=None):
 def story_training_completion(prompt=None):
     return prompt
 
+
+@use_default_prompt
+def story_characters_prompt(prompt=None):
+    return prompt
+
+
+@use_default_prompt
+def story_setting_prompt(prompt=None):
+    return prompt
+
+
+@use_default_prompt
+def story_conflict_prompt(prompt=None):
+    return prompt
+
