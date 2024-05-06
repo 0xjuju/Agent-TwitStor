@@ -18,7 +18,9 @@ class BuildBookData:
                 setting="Another world on the dark side of the rainbow, accessible only through the shadow of a "
                         "rainbow when it's at a specific location. The world is chaotic and terrorized by the "
                         "Wicked Witch. Many citizens of the main kingdom are poor and the kingdom has just "
-                        "executed half of the population for the 3rd time in 20 years."
+                        "executed half of the population for the 3rd time in 20 years.",
+                conflict="After the the kingdom executed half its population for the third time in 20 years, the "
+                         "protagonists decide to craft a clever plan to attack the capital in rebellion"
             )
         ]
         Story.objects.bulk_create(stories)

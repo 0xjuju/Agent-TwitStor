@@ -31,6 +31,10 @@ class TestModels(TestCase):
         script = Script.objects.get(name="test script 1")
         characters = script.create_characters_prompt()
 
+    def test_create_conflict_prompt(self):
+        script = Script.objects.get(name="test script 1")
+        conflict = script.create_conflict_prompt()
+
     def test_create_fine_tuned_model(self):
         f = FineTunedModel.objects.first()
         f.upload_training_data_to_openai()

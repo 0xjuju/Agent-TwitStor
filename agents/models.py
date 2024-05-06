@@ -291,12 +291,18 @@ class Script(models.Model):
 
         return character_prompt.strip()
 
+    def create_conflict_prompt(self, prompt=None):
+        story_conflict = self.fine_tuned_model.prompt.story.conflict
+        conflict_prompt = story_conflict_prompt(prompt=prompt)
+        conflict_prompt += f'\n\n"""\n[conflict]\n{story_conflict}\n"""'
+        return conflict_prompt
+
     def create_setting_prompt(self, prompt=None):
         story_setting = self.fine_tuned_model.prompt.story.setting
         setting_prompt = story_setting_prompt(prompt=prompt)
         setting_prompt += f'\n\n"""\n[Setting]\n{story_setting}\n"""'
 
-        return setting_prompt
+        return setting_prompt.strip()
 
 
 class TrainingSource(models.Model):
