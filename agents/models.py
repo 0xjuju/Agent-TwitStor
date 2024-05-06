@@ -291,6 +291,13 @@ class Script(models.Model):
 
         return character_prompt.strip()
 
+    def create_setting_prompt(self, prompt=None):
+        story_setting = self.fine_tuned_model.prompt.story.setting
+        setting_prompt = story_setting_prompt(prompt=prompt)
+        setting_prompt += f'\n\n"""\n[Setting]\n{story_setting}\n"""'
+
+        return setting_prompt
+
 
 class TrainingSource(models.Model):
     name = models.CharField(max_length=255, default="")

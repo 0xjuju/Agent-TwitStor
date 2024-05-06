@@ -23,15 +23,11 @@ class Character(BaseStory):
     growth = models.TextField(default="", blank=True)
 
 
-class Setting(BaseStory):
-    description = models.TextField(default="", blank=True)
-    timeline = models.DateField(null=True, blank=True)
-
-
 class Story(models.Model):
     title = models.CharField(max_length=255, default="")
     theme = models.CharField(max_length=255, default="")
-    conflict = models.CharField(max_length=255, default="", blank=True)
+    conflict = models.TextField(default="", blank=True)
+    setting = models.TextField(default="", blank=True)
 
 
 class Tone(BaseStory):

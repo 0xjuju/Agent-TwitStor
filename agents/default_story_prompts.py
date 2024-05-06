@@ -36,8 +36,9 @@ narrative.
 
     "story_setting_prompt": (
         """
-iDevelop a detailed and cohesive setting for the narrative that complements and enhances the story’s characters
-, plot, themes, and conflicts. Consider how geographical features, historical context, cultural dynamics, and 
+Develop a detailed and cohesive setting for the narrative that complements and enhances the story’s characters
+, plot, themes, and conflicts. Use the details provided in the triple quote below as inspiration to craft a unique and 
+imaginative setting. Consider how geographical features, historical context, cultural dynamics, and 
 technological or magical elements of the setting influence the development of the story. Ensure that the 
 setting is not just a backdrop but an active component that interacts with the story elements. The setting 
 should have a rich history that explains current societal norms, conflicts, and the state of the world. 
@@ -52,7 +53,8 @@ life to make the setting vivid and believable. This setting should feel like a l
     "story_conflict_prompt": (
         """
 Develop a central conflict for the story that not only drives the narrative but also deeply involves the 
-characters' interactions and development. This conflict should stem from the core of the plot and be
+characters' interactions and development. Use the details provided in the triple quote below as inspiration to craft a 
+unique and imaginative conflict.This conflict should stem from the core of the plot and be
  intricately linked to the setting and cultural backdrop. You have complete creative freedom, but ensure the 
 conflict utilizes details mentioned in the guidelines below. Use the conflict to continuously build suspense and
  tension throughout the story, influencing each character’s motivations and personal growth. Structure the 

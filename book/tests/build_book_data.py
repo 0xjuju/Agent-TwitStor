@@ -7,7 +7,6 @@ class BuildBookData:
     def build_all(self):
         self.build_stories()
         self.build_tones()
-        self.build_settings()
         self.build_characters()
 
     @staticmethod
@@ -16,6 +15,10 @@ class BuildBookData:
             Story(
                 title="Test Under the Rainbow",
                 theme="Greed will contaminate your",
+                setting="Another world on the dark side of the rainbow, accessible only through the shadow of a "
+                        "rainbow when it's at a specific location. The world is chaotic and terrorized by the "
+                        "Wicked Witch. Many citizens of the main kingdom are poor and the kingdom has just "
+                        "executed half of the population for the 3rd time in 20 years."
             )
         ]
         Story.objects.bulk_create(stories)
@@ -39,20 +42,6 @@ class BuildBookData:
         ]
 
         Character.objects.bulk_create(characters)
-
-    @staticmethod
-    def build_settings():
-        settings = [
-            Setting(
-                description="Another world on the dark side of the rainbow, accessible only through the shadow of a "
-                                "rainbow when it's at a specific location. The world is chaotic and terrorized by the "
-                                "Wicked Witch. Many citizens of the main kingdom are poor and the kingdom has just "
-                                "executed half of the population for the 3rd time in 20 years.",
-                story=Story.objects.first()
-            )
-        ]
-
-        Setting.objects.bulk_create(settings)
 
     @staticmethod
     def build_tones():
