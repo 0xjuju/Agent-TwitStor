@@ -9,6 +9,10 @@ class BaseStory(models.Model):
         abstract = True
 
 
+class Chapter(BaseStory):
+    name = models.CharField(max_length=255, default="")
+
+
 class Character(BaseStory):
     name = models.CharField(max_length=155, default="", blank=True)
     role = models.CharField(max_length=255, default="", blank=True)

@@ -65,8 +65,6 @@ default_prompts = {
          overall narrative flow and contributing to a fulfilling reader experience.
         """
     )
-
-
 }
 
 
