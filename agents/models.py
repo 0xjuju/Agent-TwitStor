@@ -3,7 +3,7 @@ import requests
 
 
 from agents.clean_data import *
-from agents.prompts import story_training_prompt, story_training_completion
+from agents.prompts import *
 from autogen import AssistantAgent, ConversableAgent, UserProxyAgent
 from autogen.agentchat.contrib.retrieve_assistant_agent import RetrieveAssistantAgent
 from autogen.agentchat.contrib.retrieve_user_proxy_agent import RetrieveUserProxyAgent
@@ -265,10 +265,31 @@ class Prompt(models.Model):
 
 
 class Script(models.Model):
+    name = models.CharField(max_length=255, default="")
+    description = models.TextField(default="", blank=True)
     fine_tuned_model = models.ForeignKey(FineTunedModel, on_delete=models.SET_NULL, null=True)
 
-    def create_characters(self, prompt=None):
-        pass
+    def create_characters_prompt(self, prompt=None):
+        character_details = str()
+        characters = self.fine_tuned_model.prompt.story.character_set.all()
+
+        for index, character in enumerate(characters):
+
+            character_details += (
+                f'Character {index + 1}\n'
+                f'[name]\n{character.name}\n\n'
+                f'[role]\n{character.role}\n\n'
+                f'[birthday]\n{character.birthday}\n\n'
+                f'[motivation]\n{character.motivation}\n\n'
+                f'[conflict]\n{character.conflict}\n\n'
+                f'[growth]\n{character.growth}\n'
+                f'\n'
+            )
+
+        character_prompt = story_characters_prompt(prompt=prompt)
+        character_prompt += f'\n"""\nCharacter Details:\n\n{character_details}"""'
+
+        return character_prompt.strip()
 
 
 class TrainingSource(models.Model):

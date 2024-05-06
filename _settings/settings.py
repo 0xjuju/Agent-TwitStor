@@ -71,7 +71,7 @@ DATABASES = {}
 if 'test' in sys.argv or 'test_coverage' in sys.argv:  # Covers standard and coverage testing
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mytestdatabase',
+        'NAME': 'testdatabase',
     }
 else:
     DATABASES["default"] = dj_database_url.parse(decouple.config("DATABASE_URL"))

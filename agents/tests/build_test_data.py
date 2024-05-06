@@ -15,6 +15,7 @@ class Build:
         self.build_training_sources()
         self.build_prompts()
         self.build_fine_tuned_models()
+        self.build_scripts()
 
     @staticmethod
     def build_agents():
@@ -117,6 +118,17 @@ class Build:
             )
 
         prompt_1.training_sources.add(TrainingSource.objects.get(name="The Wood Beyond the World"))
+
+    @staticmethod
+    def build_scripts():
+        scripts = [
+            Script(
+                name="test script 1",
+                fine_tuned_model=FineTunedModel.objects.get(prompt__name="Test Fantasy Prompt")
+            ),
+        ]
+
+        Script.objects.bulk_create(scripts)
 
     @staticmethod
     def build_training_sources():

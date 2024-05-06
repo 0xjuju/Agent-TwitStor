@@ -27,6 +27,11 @@ class TestModels(TestCase):
     def test_clean_training_data(self):
         training_data = TrainingSource.get_data_from_url("https://www.gutenberg.org/cache/epub/3055/pg3055.txt")
 
+    def test_create_characters_prompt(self):
+        script = Script.objects.get(name="test script 1")
+        characters = script.create_characters_prompt()
+        self.assertEqual()
+
     def test_create_fine_tuned_model(self):
         f = FineTunedModel.objects.first()
         f.upload_training_data_to_openai()
