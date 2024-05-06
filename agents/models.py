@@ -265,7 +265,7 @@ class Prompt(models.Model):
 
 
 class Script(models.Model):
-    prompt = models.ForeignKey(Prompt, on_delete=models.SET_NULL, null=True)
+    fine_tuned_model = models.ForeignKey(FineTunedModel, on_delete=models.SET_NULL, null=True)
 
     def create_characters(self, prompt=None):
         pass
