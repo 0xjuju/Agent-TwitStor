@@ -132,6 +132,11 @@ class FineTunedModel(models.Model):
         self.model_id = response.id
         self.save()
 
+    def get_ft_model(self):
+        client = OpenAI(api_key=decouple.config("OPENAI_API_KEY"))
+        ft_model = client.fine_tuning.jobs.retrieve(self.model_id)
+        return ft_model
+
     @staticmethod
     def finetune_parameters(n_epochs: int = 3, batch_size: int = 3, learning_rate_multiplier: float = 0.1,
                             hypertune_parameters=False):
@@ -257,6 +262,13 @@ class Prompt(models.Model):
     @property
     def training_data_filename(self):
         return self.name.replace(" ", "_")
+
+
+class Script(models.Model):
+    prompt = models.ForeignKey(Prompt, on_delete=models.SET_NULL, null=True)
+
+    def create_characters(self, prompt=None):
+        pass
 
 
 class TrainingSource(models.Model):

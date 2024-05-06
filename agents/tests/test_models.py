@@ -36,6 +36,10 @@ class TestModels(TestCase):
         data = TrainingSource.get_data_from_url("https://www.gutenberg.org/cache/epub/3055/pg3055.txt")
         self.assertEqual(data.status_code, 200)
 
+    def test_get_ft_model(self):
+        ft_model = FineTunedModel.objects.get(prompt__name="Test Fantasy Prompt").get_ft_model()
+        self.assertEqual(ft_model.id, "ftjob-N8R14F286lIicXeCw0aSbvh1")
+
     def test_rag_agents(self):
         rag_proxy_agent = self.rag_user_proxy.get_agent(
             task="qa",
