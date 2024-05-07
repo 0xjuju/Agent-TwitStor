@@ -41,3 +41,8 @@ def story_setting_prompt(prompt=None):
 def story_conflict_prompt(prompt=None):
     return prompt
 
+
+@use_default_prompt
+def generate_plot_prompt(prompt=None):
+    return prompt
+

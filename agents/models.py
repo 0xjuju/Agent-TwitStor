@@ -304,6 +304,14 @@ class Script(models.Model):
 
         return setting_prompt.strip()
 
+    def creation_order(self, order: list[str]):
+        options = ["CHARACTERS", "CONFLICT", "SETTING"]
+
+        if all(i.upper() in options for i in order) is False:
+            raise ValueError(f"Options are: {options}")
+
+        return order
+
 
 class TrainingSource(models.Model):
     name = models.CharField(max_length=255, default="")

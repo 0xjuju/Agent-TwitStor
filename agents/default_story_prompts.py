@@ -66,6 +66,41 @@ conflict utilizes details mentioned in the guidelines below. Use the conflict to
  Ensure that the transitions between different phases of the conflict are smooth yet engaging, enhancing the 
  overall narrative flow and contributing to a fulfilling reader experience.
         """
+    ),
+
+    "generate_plot_prompt": (
+        """
+Use the step-by-step instructions below to sequentially create the characters, setting, and conflict for the story 
+based on a provided theme. Each element should be developed using the outcomes of the previous steps as a baseline, 
+ensuring that all aspects of the story are interconnected and enhance one another. Follow this example to understand 
+the desired process and flow between elements:
+
+<Example Theme>
+Commitment to overcoming personal challenges and the power of resilience.
+
+1. [Characters]
+Develop characters who embody resilience and face personal challenges. These should include a protagonist who is 
+currently facing a significant personal hurdle, and supporting characters who influence or are influenced by the 
+protagonist's journey.
+
+2. [Setting]
+Craft a setting that reflects or contrasts the theme of resilience, such as a community recovering from a recent 
+disaster. This setting should influence the characters' lives and decisions, providing a backdrop that complements 
+their stories of personal growth and challenge.
+
+3. [Conflict]
+Construct a conflict that arises from the setting and challenges the characters’ resilience. This might involve the 
+community's efforts to rebuild, and the protagonist's role in these efforts, which tests their personal limits and 
+growth.
+
+Your task is to follow a similar structure, adapting it to the theme provided. Begin with the first element listed, 
+using only the theme as a guide. Then, as you move to the next element, incorporate details from all previously 
+developed elements. Use placeholders if necessary when an element is mentioned but not yet fully developed, 
+substituting specific details as the story elements unfold. For instance, if you start with conflict based on the 
+theme, you may need to hypothesize character reactions or setting influences, revising them later as those elements 
+are defined. This approach ensures that each part of the story is deeply interconnected, enhancing the narrative 
+cohesion and thematic depth. Use the real data below inside triple quotes to construct each element.
+    """
     )
 }
 
