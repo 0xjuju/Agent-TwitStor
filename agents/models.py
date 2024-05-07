@@ -268,6 +268,9 @@ class Script(models.Model):
     name = models.CharField(max_length=255, default="")
     description = models.TextField(default="", blank=True)
     fine_tuned_model = models.ForeignKey(FineTunedModel, on_delete=models.SET_NULL, null=True)
+    characters = models.TextField(default="", blank=True)
+    conflict = models.TextField(default="", blank=True)
+    setting = models.TextField(default="", blank=True)
 
     def create_characters_prompt(self, prompt=None):
         character_details = str()
